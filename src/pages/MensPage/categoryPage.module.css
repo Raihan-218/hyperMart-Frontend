@@ -1,0 +1,127 @@
+.pageTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.filterContainer {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.filterButton, .activeButton {
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  background-color: transparent;
+  color: var(--text-color);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.filterButton:hover {
+  background-color: var(--border-color);
+}
+
+.activeButton {
+  background-color: var(--primary-color);
+  color: #fff;
+  border-color: var(--primary-color);
+}
+
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding-bottom: 3rem;
+}
+/* src/pages/MensPage/CategoryPage.module.css */
+
+/* Keyframe for fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Page Header Styling */
+.pageTitle {
+  font-size: clamp(2.5rem, 5vw, 3.5rem); /* Responsive font size */
+  font-weight: 800;
+  text-align: center;
+  margin: 2rem 0 0.5rem 0;
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.pageDescription {
+  max-width: 600px;
+  margin: 0 auto 3rem auto;
+  text-align: center;
+  color: var(--secondary-color);
+  font-size: 1.1rem;
+  font-weight: 300;
+  line-height: 1.6;
+  opacity: 0; /* Start hidden for animation */
+  animation: fadeIn 0.6s ease-out 0.2s forwards; /* Delayed start */
+}
+
+/* Filter Buttons Styling */
+.filterContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; /* Allows buttons to wrap on smaller screens */
+  gap: 0.75rem;
+  margin-bottom: 3rem;
+  opacity: 0; /* Start hidden for animation */
+  animation: fadeIn 0.6s ease-out 0.4s forwards; /* Delayed start */
+}
+
+.filterButton,
+.activeButton {
+  padding: 10px 24px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 50px; /* Pill-shaped buttons */
+  border: 1px solid var(--border-color);
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: capitalize; /* e.g., 'dress' -> 'Dress' */
+}
+
+.filterButton {
+  color: var(--secondary-color);
+}
+
+.filterButton:hover {
+  background-color: var(--section-bg-color);
+  border-color: #ddd;
+  transform: translateY(-2px);
+}
+
+.activeButton {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Product Grid */
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  opacity: 0; /* Start hidden for animation */
+  animation: fadeIn 0.6s ease-out 0.6s forwards; /* Delayed start */
+}

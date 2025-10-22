@@ -1,0 +1,311 @@
+/* src/pages/ProductDetailPage/ProductDetailPage.module.css */
+/* --- Add these new styles to your existing file --- */
+
+/* --- Star Rating Input --- */
+.starRatingInput span {
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+/* --- Out of Stock Overlay --- */
+.imageGallery {
+  position: relative;
+}
+.outOfStockOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  z-index: 2;
+  text-align: center;
+}
+.mainImage {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  background-color: var(--section-bg-color);
+}
+
+/* --- Button States --- */
+.addToCartButton:disabled {
+  background-color: var(--secondary-color);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.wishlistButton.wishlisted {
+  color: #e63946; /* A strong red for "wishlisted" */
+  border-color: #e63946;
+}
+
+.successMessage {
+  text-align: center;
+  color: #2a9d8f; /* A "success" green */
+  font-weight: 600;
+  margin: 1rem 0;
+}
+
+/* --- Review Form --- */
+.reviewForm {
+  background-color: var(--background-color);
+  padding: 2rem;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  margin-bottom: 2.5rem;
+}
+
+.reviewForm h3 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.reviewTextarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--section-bg-color);
+  color: var(--text-color);
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.submitReviewButton {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  margin-top: 1rem;
+}
+.submitReviewButton:hover {
+  background-color: var(--button-hover-bg);
+}
+
+/* --- Review List --- */
+.reviewList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* --- Keep all your other existing styles --- */
+/* --- Main Product View Layout --- */
+.productView {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin: 4rem 0;
+}
+
+/* --- 1. Image Gallery --- */
+.imageGallery {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.mainImage {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  background-color: var(--section-bg-color);
+}
+
+/* --- 2. Product Details --- */
+.productDetails {
+  display: flex;
+  flex-direction: column;
+}
+.productName {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-color);
+}
+.priceAndReviews {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 0.75rem 0;
+}
+.productPrice {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin: 0;
+}
+.miniReview {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--secondary-color);
+  font-size: 0.9rem;
+}
+.productDescription {
+  color: var(--secondary-color);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+/* --- Options (Color & Size) --- */
+.optionGroup {
+  margin-bottom: 1.5rem;
+}
+.optionGroup label {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+.colorSwatches, .sizeSelector {
+  display: flex;
+  gap: 0.75rem;
+}
+.swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.activeSwatch {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px var(--background-color), 0 0 0 4px var(--primary-color);
+}
+.sizeButton {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: transparent;
+  color: var(--text-color);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.sizeButton:hover {
+  border-color: var(--primary-color);
+}
+.activeSize {
+  background-color: var(--primary-color);
+  color: var(--button-text);
+  border-color: var(--primary-color);
+}
+
+/* --- Actions --- */
+.actions {
+  margin-top: auto; /* Pushes buttons to the bottom */
+  padding-top: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+.addToCartButton, .wishlistButton {
+  flex-grow: 1;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.addToCartButton {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+}
+.addToCartButton:hover {
+  background-color: var(--button-hover-bg);
+  transform: translateY(-2px);
+}
+.wishlistButton {
+  background-color: var(--section-bg-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+.wishlistButton:hover {
+  border-color: var(--primary-color);
+}
+
+/* --- Star Rating Helper --- */
+.starRating {
+  color: #FFD700; /* Gold color for stars */
+}
+.starEmpty {
+  color: var(--border-color);
+}
+
+/* --- Universal Section Styling --- */
+.sectionTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 1rem;
+}
+.reviewsSection, .recommendations {
+  margin-bottom: 4rem;
+}
+
+/* --- Reviews Section --- */
+.reviewCard {
+  background-color: var(--background-color);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 1rem;
+}
+.reviewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+.reviewHeader strong {
+  font-size: 1.1rem;
+}
+.viewAllLink {
+  display: block;
+  text-align: center;
+  margin-top: 2rem;
+  color: var(--primary-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* --- Recommendations Carousel --- */
+.productCarousel {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(250px, 1fr);
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 1rem; /* Space for scrollbar */
+}
+/* Hide scrollbar for a cleaner look */
+.productCarousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 900px) {
+  .productView {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .actions {
+    flex-direction: column;
+  }
+}   

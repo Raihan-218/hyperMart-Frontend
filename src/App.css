@@ -1,0 +1,17 @@
+/* In your main index.css or App.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --primary-color: #0a0a0a;
+  --primary-hover: #333;
+  --secondary-color: #6c757d;
+  --background-color: #ffffff;
+  --section-bg-color: #f8f9fa;
+  --border-color: #e9ecef;
+  --font-family: 'Poppins', sans-serif;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+}

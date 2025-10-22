@@ -1,0 +1,152 @@
+/* src/pages/HomePage/HomePage.module.css */
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroBgZoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.05);
+  }
+}
+
+/* Hero Section Styling */
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 70vh;
+  min-height: 400px;
+  max-height: 600px;
+  margin: 2rem 0 4rem 0;
+  border-radius: 12px;
+  overflow: hidden; /* Important for border-radius and pseudo-elements */
+  color: white;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Make sure you have a 'hero-bg.jpg' in your public/assets folder */
+  background-image: linear-gradient(75deg, rgba(0, 0, 0, 0.7) 10%, rgba(0, 0, 0, 0.2) 60%), url('/assets/hero.jpg');
+  background-size: cover;
+  background-position: center;
+  animation: heroBgZoom 10s ease-out forwards;
+  z-index: 1;
+}
+
+.heroContent {
+  position: relative;
+  padding: 2rem 4rem;
+  z-index: 2;
+  max-width: 600px;
+}
+
+.heroTitle {
+  font-size: clamp(2.5rem, 5vw, 4rem); /* Responsive font size */
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.heroSubtitle {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  margin-top: 1rem;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+.heroButton {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 12px 32px;
+  background-color: var(--background-color);
+  color: var(--primary-color);
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid transparent;
+}
+
+.heroButton:hover {
+  background-color: transparent;
+  color: var(--background-color);
+  border-color: var(--background-color);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Featured Product Sections */
+.section {
+  padding: 4rem 2rem;
+  margin-bottom: 2rem;
+  background-color: var(--section-bg-color);
+  border-radius: 12px;
+  /* Animation */
+  opacity: 0;
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align to top */
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.sectionDescription {
+  margin-top: 0.5rem;
+  color: var(--secondary-color);
+  max-width: 500px;
+}
+
+.viewAllLink {
+  display: inline-block;
+  padding: 10px 24px;
+  background-color: transparent;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+  border: 1px solid var(--border-color);
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  white-space: nowrap; /* Prevents button from wrapping */
+}
+
+.viewAllLink:hover {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+/* Product Grid */
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+}

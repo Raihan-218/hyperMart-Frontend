@@ -1,0 +1,200 @@
+/* src/pages/LoginPage/AuthForm.module.css */
+
+/* --- Main Split-Screen Container --- */
+.authContainer {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--background-color);
+}
+
+/* --- 1. Visual Side (Branding) --- */
+.visualSide {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/assets/fashion-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  color: #FFFFFF;
+  padding: 2rem;
+}
+
+.visualContent {
+  text-align: center;
+}
+
+.brandTitle {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -1px;
+}
+
+.brandTagline {
+  font-size: 1.25rem;
+  font-weight: 300;
+  opacity: 0.9;
+  margin-top: 0.5rem;
+}
+
+/* Hide the visual side on smaller screens */
+@media (max-width: 900px) {
+  .visualSide {
+    display: none;
+  }
+}
+
+/* --- 2. Form Side --- */
+.formSide {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.authFormWrapper {
+  width: 100%;
+  max-width: 400px;
+}
+
+/* --- Typography --- */
+.formTitle {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+}
+
+.formSubtitle {
+  color: var(--secondary-color);
+  margin-bottom: 2.5rem;
+}
+
+/* --- Form & Inputs --- */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.inputGroup label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.inputGroup input {
+  width: 100%;
+  padding: 12px 16px;
+  box-sizing: border-box;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--section-bg-color);
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.inputGroup input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-color-translucent, rgba(0, 123, 255, 0.25)); /* Fallback */
+}
+
+.inputGroup input::placeholder {
+  color: var(--secondary-color);
+  opacity: 0.8;
+}
+
+/* --- Buttons --- */
+.submitButton {
+  width: 100%;
+  padding: 14px;
+  margin-top: 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+}
+
+.submitButton:hover {
+  background-color: var(--button-hover-bg);
+  transform: translateY(-2px);
+}
+
+/* --- Separator & Social Logins --- */
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--secondary-color);
+  margin: 2rem 0;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.separator::before,
+.separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.separator:not(:empty)::before {
+  margin-right: .25em;
+}
+
+.separator:not(:empty)::after {
+  margin-left: .25em;
+}
+
+.socialLogin {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.socialButton {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: var(--section-bg-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.socialButton:hover {
+  border-color: var(--primary-color);
+}
+
+/* --- Redirect Link --- */
+.redirectText {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--secondary-color);
+}
+
+.redirectLink {
+  font-weight: 600;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.redirectLink:hover {
+  text-decoration: underline;
+}
