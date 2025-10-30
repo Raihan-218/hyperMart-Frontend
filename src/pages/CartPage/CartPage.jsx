@@ -1,10 +1,13 @@
+// src/pages/CartPage/CartPage.jsx
+
 import React from 'react';
 import { useCart } from '../../context/CartContext';
 import styles from './CartPage.module.css';
 import { Link } from 'react-router-dom';
 
 const CartPage = () => {
-  const { cartItems, removeFromCart } = useCart();
+  // 1. Get updateQuantity as well, just in case
+  const { cartItems, removeFromCart, updateQuantity } = useCart(); 
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
@@ -21,15 +24,26 @@ const CartPage = () => {
         <div className={styles.cartGrid}>
           <div className={styles.cartItems}>
             {cartItems.map(item => (
-              <div key={item.id} className={styles.cartItem}>
+              // 2. Use item.cartItemId for the key, as it's truly unique
+              <div key={item.cartItemId} className={styles.cartItem}> 
                 <img src={item.image} alt={item.name} className={styles.itemImage} />
                 <div className={styles.itemDetails}>
                   <h3 className={styles.itemName}>{item.name}</h3>
                   <p className={styles.itemPrice}>₹{item.price.toFixed(2)}</p>
-                  <p className={styles.itemQuantity}>Quantity: {item.quantity}</p>
+                  
+                  {/* 3. Added item color and size for clarity */}
+                  <p className={styles.itemOptions}>{item.color} / {item.size}</p> 
+                  
+                  {/* 4. (Optional) Add a quantity updater */}
+                  <div className={styles.quantityControls}>
+                    <button onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}>-</button>
+                    <span>{item.quantity}</span>
+                    <button onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}>+</button>
+                  </div>
                 </div>
                 <button 
-                  onClick={() => removeFromCart(item.id)} 
+                  // 5. THE FIX: Use item.cartItemId here
+                  onClick={() => removeFromCart(item.cartItemId)} 
                   className={styles.removeButton}
                 >
                   Remove

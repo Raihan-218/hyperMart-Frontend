@@ -137,6 +137,44 @@
 .checkoutButton:hover {
   background-color: var(--primary-hover);
 }
+/* Add to src/pages/CartPage/CartPage.module.css */
+
+.itemOptions {
+  font-size: 0.9rem;
+  color: var(--secondary-color);
+  margin: 0.25rem 0;
+  text-transform: capitalize;
+}
+
+.quantityControls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.quantityControls span {
+  font-weight: 500;
+  min-width: 20px;
+  text-align: center;
+}
+
+.quantityControls button {
+  background-color: var(--section-bg-color);
+  border: 1px solid var(--border-color);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantityControls button:hover {
+  background-color: var(--border-color);
+}
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
