@@ -23,5 +23,3 @@ dist-ssr
 *.sw?
 /src/assets
 ../hypermart-backend/
-package.json
-package-lock.json
