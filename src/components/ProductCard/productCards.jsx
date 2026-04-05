@@ -2,13 +2,15 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from './productCards.module.css'; 
+import styles from './productCards.module.css';
 
 const ProductCard = ({ product }) => {
   return (
-    <Link to={`/product/${product.id}`} className={styles.productCard}>
+    <Link to={`/product/${product._id}`} className={styles.productCard}>
       <div className={styles.imageContainer}>
-        <img src={product.image} alt={product.name} className={styles.productImage} />
+        <img src={product.images?.[0]?.url} alt={product.name} className={styles.productImage} />
+        
+      
         <div className={styles.viewOverlay}>
           <span>View Details</span>
         </div>

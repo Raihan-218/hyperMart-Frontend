@@ -1,9 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import styles from './productDetails.module.css'; // Changed from productDetails.module.css
-import { products } from '../../data/products.js';
+import styles from './productDetails.module.css';
 import ProductCard from '../../components/ProductCard/productCards.jsx';
-import { useCart } from '../../context/CartContext.jsx'; // 1. Import Cart hook
+import { useCart } from '../../context/CartContext.jsx';
+import { getProductById } from '../../services/productService.js';
 
 // --- Helper Components ---
 const StarRating = ({ rating, onRating, readOnly = false }) => (
@@ -28,9 +28,12 @@ const demoReviews = [
 
 // --- Main Component ---
 const ProductDetailPage = () => {
-  const { productId } = useParams();
-  const product = products.find(p => p.id === parseInt(productId));
-  const { addToCart } = useCart(); // 2. Get the addToCart function
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const { addToCart } = useCart();
 
   // --- New State for Functionality ---
   const [selectedColor, setSelectedColor] = useState('Black');
@@ -41,8 +44,44 @@ const ProductDetailPage = () => {
   const [newReviewRating, setNewReviewRating] = useState(0);
   const [newReviewText, setNewReviewText] = useState('');
 
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        setLoading(true);
+        console.log(product)
+        console.log("FINAL IMAGE URL:", product?.images?.[0]?.url );
+        const response = await getProductById(id);
+
+        const data = response.data.product;
+
+        console.log("API DATA:", data);
+
+        if (!data) {
+          setError("Product not found");
+          return;
+        }
+
+        setProduct(data);
+
+      } catch (err) {
+        console.error("Failed to fetch product", err);
+        setError("Failed to load product details.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct(); // ✅ CALL HERE (OUTSIDE function)
+
+  }, [id]); // ✅ DEPENDENCY
+
   // 3. Simulate "In Stock" data. (e.g., odd-numbered IDs are out of stock)
-  const inStock = product && product.id % 2 === 0;
+  // Ensure product exists before accessing properties
+  // const inStock = product && product._|id % 2 === 0;
+  const inStock = true // until real inventory logic
+
+  if (loading) return <div className="container" style={{ margin: '4rem 0' }}>Loading...</div>;
+  if (error) return <div className="container" style={{ margin: '4rem 0', color: 'red' }}>{error}</div>;
 
   if (!product) {
     return <div className="container" style={{ textAlign: 'center', margin: '4rem 0' }}><h2>Product Not Found!</h2></div>;
@@ -77,8 +116,9 @@ const ProductDetailPage = () => {
   };
 
   // --- Dynamic Data for Filtering ---
-  const similarProducts = products.filter(p => p.type === product.type && p.id !== product.id).slice(0, 5);
-  const recommendedProducts = products.filter(p => p.category !== product.category).slice(0, 10);
+  // Placeholder for dynamic recommendations
+  const similarProducts = [];
+  const recommendedProducts = [];
   const colors = ['Black', 'Navy', 'Graphite'];
   const sizes = ['S', 'M', 'L', 'XL'];
 
@@ -90,8 +130,9 @@ const ProductDetailPage = () => {
         <div className={styles.imageGallery}>
           {/* 4. Show "Out of Stock" overlay if not in stock */}
           {!inStock && <div className={styles.outOfStockOverlay}>Out of Stock</div>}
-          <img src={product.image} alt={product.name} className={styles.mainImage} />
+          <img src={product.images?.[0]?.url} alt={product.name} className={styles.mainImage} />
         </div>
+
 
         {/* Right Side: Product Details & Actions */}
         <div className={styles.productDetails}>
@@ -106,7 +147,7 @@ const ProductDetailPage = () => {
           <p className={styles.productDescription}>
             A timeless classic, this {product.type} is crafted from premium materials for ultimate comfort and durability.
           </p>
-          
+
           {/* Color Options (Already works) */}
           <div className={styles.optionGroup}>
             <label>Color:</label>
@@ -163,7 +204,7 @@ const ProductDetailPage = () => {
       {/* --- Customer Reviews Section --- */}
       <div className={styles.reviewsSection}>
         <h2 className={styles.sectionTitle}>Customer Reviews</h2>
-        
+
         {/* 7. New Review Form */}
         <form className={styles.reviewForm} onSubmit={handleReviewSubmit}>
           <h3>Write a Review</h3>

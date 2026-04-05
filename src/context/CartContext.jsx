@@ -1,82 +1,82 @@
-// src/context/CartContext.jsx
-// (Copy and replace the entire file)
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import { useAuth } from './AuthContext';
+import { getCart, addToCart as apiAddToCart, removeCartItem as apiRemoveCartItem } from '../services/cartService';
 
-import React, { createContext, useState, useContext } from 'react';
-
-// 1. Create the context
 const CartContext = createContext();
 
-// 2. Create a custom hook for easy access
 export const useCart = () => {
   return useContext(CartContext);
 };
 
-// 3. Create the Provider component
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { isAuthenticated } = useAuth();
 
-  // 1. addToCart now accepts the product AND its selected options
-  const addToCart = (product, color, size, quantityToAdd) => {
-    setCartItems(prevItems => {
-      // 2. Check if this *exact* item (by ID, color, AND size) is already in the cart
-      const existingItem = prevItems.find(
-        item => item.id === product.id && item.color === color && item.size === size
-      );
-
-      if (existingItem) {
-        // 3. If it exists, just update its quantity
-        return prevItems.map(item =>
-          item.id === product.id && item.color === color && item.size === size
-            ? { ...item, quantity: item.quantity + quantityToAdd }
-            : item
-        );
-      } else {
-        // 4. If it's a new item, add it to the cart with all its info
-        // We add a 'cartItemId' to make it easy to remove or update a specific item
-        const newItem = {
-          ...product,
-          color,
-          size,
-          quantity: quantityToAdd,
-          cartItemId: Date.now() // A unique ID for this specific cart entry
-        };
-        return [...prevItems, newItem];
-      }
-    });
-    console.log('Product added to cart:', { product, color, size, quantityToAdd });
-  };
-
-  // 5. removeFromCart should use the unique 'cartItemId'
-  const removeFromCart = (cartItemId) => {
-    setCartItems(prevItems => prevItems.filter(item => item.cartItemId !== cartItemId));
-  };
-
-  // 6. (Bonus) A function to update quantity directly in the cart
-  const updateQuantity = (cartItemId, newQuantity) => {
-    if (newQuantity <= 0) {
-      // If quantity is 0 or less, remove the item
-      removeFromCart(cartItemId);
+  // Fetch cart when user logs in
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchCart();
     } else {
-      setCartItems(prevItems =>
-        prevItems.map(item =>
-          item.cartItemId === cartItemId ? { ...item, quantity: newQuantity } : item
-        )
-      );
+      setCartItems([]);
+    }
+  }, [isAuthenticated]);
+
+  const fetchCart = async () => {
+    try {
+      setLoading(true);
+      const res = await getCart();
+      // Backend returns { cartItems: [...] }
+      setCartItems(res.data.cartItems || []);
+    } catch (error) {
+      console.error("Failed to fetch cart", error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  // 7. (Bonus) A function to clear the entire cart
+  const addToCart = async (product, color, size, quantityToAdd) => {
+    if (!isAuthenticated) {
+      alert("Please login to add items to cart");
+      return;
+    }
+
+    try {
+      // Call Backend
+      await apiAddToCart(product.id, quantityToAdd);
+
+      // Refresh Cart
+      await fetchCart();
+      console.log('Product added to cart:', product.name);
+    } catch (error) {
+      console.error("Failed to add to cart", error);
+      alert("Failed to add item to cart.");
+    }
+  };
+
+  const removeFromCart = async (productId) => {
+    if (!isAuthenticated) return;
+
+    try {
+      await apiRemoveCartItem(productId);
+      // Optimistic update or refresh
+      setCartItems(prev => prev.filter(item => item.product._id !== productId && item.product.id !== productId));
+      await fetchCart();
+    } catch (error) {
+      console.error("Failed to remove item", error);
+    }
+  };
+
   const clearCart = () => {
     setCartItems([]);
   };
 
-  // 8. Expose all functions to the app
   const value = {
     cartItems,
     addToCart,
     removeFromCart,
-    updateQuantity,
     clearCart,
+    loading
   };
 
   return (
