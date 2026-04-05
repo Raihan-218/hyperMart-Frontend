@@ -1,17 +1,55 @@
 // src/pages/HomePage/HomePage.jsx
-// No changes are needed here. The existing code works perfectly with the new styles.
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { products } from '../../data/products';
+import { getProductsByCategory } from '../../services/productService';
 import ProductCard from '../../components/ProductCard/productCards.jsx';
 import styles from './HomePage.module.css';
 
 const HomePage = () => {
-  // Get up to 5 items from each category to feature
-  const featuredMen = products.filter(p => p.category === 'men').slice(0, 5);
-  const featuredWomen = products.filter(p => p.category === 'women').slice(0, 5);
-  const featuredKids = products.filter(p => p.category === 'kids').slice(0, 5);
+  const [featuredMen, setFeaturedMen] = useState([]);
+  const [featuredWomen, setFeaturedWomen] = useState([]);
+  const [featuredKids, setFeaturedKids] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const [menRes, womenRes, kidsRes] = await Promise.all([
+          getProductsByCategory('men'),
+          getProductsByCategory('women'),
+          getProductsByCategory('kids')
+        ]);
+
+        // Assuming API returns { products: [...] }
+        setFeaturedMen((menRes.data.products || menRes.data || []).slice(0, 5));
+        setFeaturedWomen((womenRes.data.products || womenRes.data || []).slice(0, 5));
+        setFeaturedKids((kidsRes.data.products || kidsRes.data || []).slice(0, 5));
+
+      } catch (err) {
+        console.error("Failed to fetch home page data", err);
+        setError("Failed to load featured products.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="container">
+        <div className={styles.hero}>
+          <div className={styles.heroContent}>
+            <h1 className={styles.heroTitle}>New Season Arrivals</h1>
+          </div>
+        </div>
+        <div style={{ padding: '2rem', textAlign: 'center' }}>Loading featured products...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
@@ -24,6 +62,8 @@ const HomePage = () => {
         </div>
       </div>
 
+      {error && <div style={{ color: 'red', textAlign: 'center' }}>{error}</div>}
+
       {/* Featured Men's Section */}
       <section className={styles.section}>
         <div className={styles.sectionHeader}>
@@ -34,7 +74,7 @@ const HomePage = () => {
           <Link to="/men" className={styles.viewAllLink}>View All</Link>
         </div>
         <div className={styles.productGrid}>
-          {featuredMen.map(product => <ProductCard key={product.id} product={product} />)}
+          {featuredMen.map(product => <ProductCard key={product._id} product={product} />)}
         </div>
       </section>
 
@@ -48,10 +88,10 @@ const HomePage = () => {
           <Link to="/women" className={styles.viewAllLink}>View All</Link>
         </div>
         <div className={styles.productGrid}>
-          {featuredWomen.map(product => <ProductCard key={product.id} product={product} />)}
+          {featuredWomen.map(product => <ProductCard key={product._id} product={product} />)}
         </div>
       </section>
-      
+
       {/* Featured Kid's Section */}
       <section className={styles.section}>
         <div className={styles.sectionHeader}>
@@ -62,7 +102,7 @@ const HomePage = () => {
           <Link to="/kids" className={styles.viewAllLink}>View All</Link>
         </div>
         <div className={styles.productGrid}>
-          {featuredKids.map(product => <ProductCard key={product.id} product={product} />)}
+          {featuredKids.map(product => <ProductCard key={product._id} product={product} />)}
         </div>
       </section>
     </div>
