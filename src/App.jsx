@@ -11,7 +11,7 @@ import Footer from './components/Footer/Footer.jsx';
 
 // PAGE COMPONENTS
 import HomePage from './pages/HomePage/homePage.jsx';
-import MensPage from './pages/MensPage/MensPage.jsx';
+import MensPage from './pages/MensPage/mensPage.jsx';
 import WomensPage from './pages/WomensPage/WomensPage.jsx';
 import KidsPage from './pages/KidsPage/KidsPage.jsx';
 import LoginPage from './pages/LoginPage/loginPage.jsx';

@@ -9,7 +9,7 @@ A modern, responsive e-commerce frontend application built with **React**, **Vit
 **HyperMart** is a fashion e-commerce platform that allows customers to browse, search, and purchase clothing items across multiple categories (Men, Women, Kids). The application includes user authentication, a shopping cart system, product details with reviews, and an admin dashboard for order management.
 
 **Repository:** https://github.com/Raihan-218/hyperMart-Frontend  
-**Current Branch:** `dev`
+**Current Branch:** `main`
 
 ---
 
