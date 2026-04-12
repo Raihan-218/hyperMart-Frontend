@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from './productCards.module.css';
+import styles from './ProductCards.module.css';
 
 const ProductCard = ({ product }) => {
   return (
