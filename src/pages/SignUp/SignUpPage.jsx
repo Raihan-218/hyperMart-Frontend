@@ -3,7 +3,7 @@
 import React, { useState } from 'react'; // 1. Import useState
 import { Link, useNavigate } from 'react-router-dom'; // 2. Import useNavigate
 import styles from '../LoginPage/AuthForm.module.css';
-import img from '../../assets/signup.webp';
+const img = '/assets/signup.webp';
 
 const SignupPage = () => {
   // 3. Create state for your form fields
