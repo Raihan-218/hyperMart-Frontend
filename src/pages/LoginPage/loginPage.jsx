@@ -1,7 +1,7 @@
 import React, { useState } from 'react'; // 1. Import useState
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './AuthForm.module.css';
-import img from '../../assets/loginpage.webp';
+const img = '/assets/hero.jpg';
 import { useAuth } from '../../context/AuthContext';
 
 
