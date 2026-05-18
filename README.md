@@ -1,425 +1,293 @@
-# HyperMart Backend 
+# HyperMart : Modern Fashion E-Commerce Platform
 
-A scalable and secure backend for the **HyperMart E-Commerce Platform** built using **Node.js**, **Express.js**, **MongoDB**, and **JWT Authentication**.
-This backend powers authentication, product management, cart operations, order processing, reviews, and admin functionalities for the HyperMart fashion store. 
+A full-stack inspired fashion e-commerce frontend built using **React**, **Vite**, **React Router**, **Tailwind CSS**, and **Axios**.
+HyperMart provides a sleek shopping experience for Men, Women, and Kids collections with authentication, cart management, admin dashboard support, dark mode, and responsive UI. 
 
 ---
 
-# ✨ Features
+## 🚀 Features
 
-## 🔐 Authentication & Authorization
+### 👕 Customer Features
+
+* Browse products by categories:
+
+  * Men
+  * Women
+  * Kids
+* Product detail pages
+* Add to cart functionality
+* Shopping cart management
+* User authentication
+* Protected routes for logged-in users
+* Responsive modern UI
+* Dark/Light theme toggle
+* Dynamic product filtering
+
+### 🔐 Authentication
 
 * User Registration
-* User Login & Logout
-* JWT Access & Refresh Tokens
-* Cookie-based authentication
-* Protected routes
+* Login & Logout
+* Persistent authentication using cookies/JWT
+* Auth context management
+
+### 🛒 Cart System
+
+* Add products to cart
+* Remove products
+* Quantity management
+* Cart persistence with backend API
+
+### 🛠️ Admin Features
+
+* Admin protected routes
+* Admin dashboard
+* View customer orders
+* Add new products
 * Role-based access control
-
-  * User
-  * Admin
-  * Employee
-
----
-
-## 👕 Product Management
-
-* Add Products
-* Update Products
-* Delete Products
-* Get Single Product
-* Get All Products
-* Product category filtering
-* Cloudinary image upload support
-* Multiple image uploads using Multer
-
----
-
-## 🛒 Cart System
-
-* Add items to cart
-* Remove cart items
-* Fetch user cart
-* Checkout flow
-* Order generation from cart
-
----
-
-## ⭐ Reviews System
-
-* Add product reviews
-* Delete reviews
-* Product rating calculation
-* Review fetching per product
-
----
-
-## 📦 Orders Management
-
-* Create orders
-* Track order history
-* Update order status
-* Assign delivery personnel
-* Admin order management
-
----
-
-## ☁️ Cloudinary Integration
-
-* Upload product images
-* Delete images from Cloudinary
-* Optimized image handling
 
 ---
 
 # 🧱 Tech Stack
 
-## Backend
+## Frontend
 
-* Node.js
-* Express.js
+* React 19
+* Vite
+* React Router DOM
+* Tailwind CSS
+* CSS Modules
+* Axios
+* Lucide React Icons
 
-## Database
+## State Management
 
-* MongoDB
-* Mongoose ODM
+* React Context API
 
-## Authentication
+  * AuthContext
+  * CartContext
 
-* JWT
-* bcrypt
-* Cookie Parser
+## Backend Integration
 
-## File Uploads
-
-* Multer
-* Cloudinary
-
-## Development Tools
-
-* Nodemon
-* Prettier
+Connected with REST APIs using Axios.
 
 ---
 
 # 📂 Project Structure
 
-```bash id="uwtzkt"
+```bash
 src/
 │
-├── controllers/
-│   ├── admin.controller.js
-│   ├── cart.controller.js
-│   ├── products.controller.js
-│   ├── reviews.controller.js
-│   └── user.controller.js
+├── components/
+│   ├── Navbar/
+│   ├── Footer/
+│   ├── ProductCard/
+│   ├── protectedRoute.jsx
+│   └── AdminRoute.jsx
 │
-├── middleware/
-│   ├── auth.middleware.js
-│   ├── admin.middleware.js
-│   └── multer.middleware.js
+├── context/
+│   ├── AuthContext.jsx
+│   └── CartContext.jsx
 │
-├── routes/
-│   ├── user.routes.js
-│   ├── products.route.js
-│   ├── carts.routes.js
-│   ├── review.routes.js
-│   └── admin.routes.js
+├── pages/
+│   ├── HomePage/
+│   ├── MensPage/
+│   ├── WomensPage/
+│   ├── KidsPage/
+│   ├── CartPage/
+│   ├── LoginPage/
+│   ├── SignUp/
+│   ├── productDetails/
+│   └── Admin/
 │
-├── db/
-│   ├── users.models.js
-│   ├── products.model.js
-│   ├── carts.model.js
-│   ├── orders.model.js
-│   └── reviews.model.js
+├── services/
+│   ├── api.js
+│   ├── authService.js
+│   ├── cartService.js
+│   └── productService.js
 │
-├── config/
-│   └── cloudinary.config.js
-│
-├── utils/
-│   └── cloudinary.utils.js
-│
-├── app.js
-└── main.js
+├── App.jsx
+├── main.jsx
+└── index.css
 ```
 
 ---
 
 # ⚙️ Installation
 
-## 1️⃣ Clone Repository
+## 1️⃣ Clone the Repository
 
-```bash id="czmrvn"
-git clone https://github.com/your-username/hypermart-backend.git
-cd hypermart-backend
+```bash
+git clone https://github.com/your-username/hypermart-frontend.git
+cd hypermart-frontend
 ```
 
 ---
 
 ## 2️⃣ Install Dependencies
 
-```bash id="ng8c2s"
+```bash
 npm install
 ```
 
 ---
 
-# 🔑 Environment Variables
+## 3️⃣ Setup Environment Variables
 
 Create a `.env` file in the root directory.
 
-```env id="yvztgf"
-PORT=5000
-
-DB_URI=your_mongodb_connection_string
-
-CORS_ORIGIN=http://localhost:5173
-
-AccessTokenSecret=your_access_token_secret
-AccessTokenExpiry=1d
-
-RefreshTokenSecret=your_refresh_token_secret
-RefreshTokenExpiry=7d
-
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
+```env
+VITE_BACKEND_URL=http://localhost:5000/api
 ```
 
 ---
 
-# 🚀 Running the Server
+## 4️⃣ Run Development Server
 
-## Development Mode
-
-```bash id="lsc9f9"
+```bash
 npm run dev
 ```
 
-## Production Mode
+Application will run on:
 
-```bash id="fbe9ph"
-npm start
-```
-
-Server runs on:
-
-```bash id="bdn8tp"
-http://localhost:5000
+```bash
+http://localhost:5173
 ```
 
 ---
 
-# 🔌 API Base URL
+# 🏗️ Build for Production
 
-```bash id="n5oxwp"
-/api/v1
+```bash
+npm run build
+```
+
+Preview production build:
+
+```bash
+npm run preview
 ```
 
 ---
 
-# 🧑‍💻 Authentication Routes
+# 🔐 Authentication Flow
 
-| Method | Endpoint          | Description          |
-| ------ | ----------------- | -------------------- |
-| POST   | `/users/register` | Register user        |
-| POST   | `/users/login`    | Login user           |
-| POST   | `/users/logout`   | Logout user          |
-| GET    | `/users/me`       | Current user profile |
-| PUT    | `/users/profile`  | Update profile       |
-| DELETE | `/users/account`  | Delete account       |
+The app uses:
+
+* JWT Authentication
+* Cookies with `withCredentials`
+* Protected routes using React Router
+* Context API for global auth state
 
 ---
 
-# 👕 Product Routes
+# 🛍️ Product Categories
 
-| Method | Endpoint                      | Description         |
-| ------ | ----------------------------- | ------------------- |
-| GET    | `/products`                   | Get all products    |
-| GET    | `/products/:id`               | Get single product  |
-| POST   | `/products/addproducts`       | Add product (Admin) |
-| PUT    | `/products/updateProduct/:id` | Update product      |
-| DELETE | `/products/delete/:id`        | Delete product      |
+* Men's Fashion
+* Women's Fashion
+* Kids Collection
 
----
+Each category supports:
 
-# 🛒 Cart Routes
-
-| Method | Endpoint                    | Description      |
-| ------ | --------------------------- | ---------------- |
-| GET    | `/carts`                    | Fetch cart       |
-| POST   | `/carts/add`                | Add to cart      |
-| DELETE | `/carts/remove/:product_id` | Remove cart item |
-| POST   | `/carts/checkout`           | Checkout         |
+* Dynamic fetching
+* Filtering by product type
+* Responsive product grid
 
 ---
 
-# ⭐ Review Routes
+# 🌙 Dark Mode
 
-| Method | Endpoint                      | Description         |
-| ------ | ----------------------------- | ------------------- |
-| GET    | `/reviews/:id`                | Get product reviews |
-| POST   | `/reviews/:id`                | Add review          |
-| DELETE | `/reviews/comment/:commentId` | Delete review       |
+HyperMart supports:
 
----
+* Light Theme
+* Dark Theme
 
-# 🛠️ Admin Routes
-
-| Method | Endpoint             | Description         |
-| ------ | -------------------- | ------------------- |
-| GET    | `/admin/users`       | Get all users       |
-| GET    | `/admin/orders`      | Get all orders      |
-| PUT    | `/admin/orderstatus` | Update order status |
+Theme preference is stored using `localStorage`.
 
 ---
 
-# 🔐 JWT Authentication
+# 🧑‍💻 Admin Panel
 
-Authentication uses:
+Admin users can:
 
-* Access Tokens
-* Refresh Tokens
-* HTTP-only cookies
-* Middleware-based route protection
+* Access admin dashboard
+* View customer orders
+* Add new products
+* Manage store inventory
 
-Protected routes use:
+Protected using role-based routing.
 
-```js id="7cggyr"
-verifyJWT
+---
+
+# 📦 API Services
+
+### Authentication APIs
+
+```js
+/users/register
+/users/login
+/users/logout
+/users/me
 ```
 
-Admin routes use:
+### Product APIs
 
-```js id="jlwmow"
-isAdmin
+```js
+/products
+/products/:id
+/products/addproducts
+```
+
+### Cart APIs
+
+```js
+/carts
+/carts/add
+/carts/remove/:id
+/carts/checkout
 ```
 
 ---
 
-# ☁️ Cloudinary Upload System
+# 🎨 UI Highlights
 
-Images are:
-
-1. Uploaded locally using Multer
-2. Sent to Cloudinary
-3. Stored using secure URLs
-4. Deleted automatically from local storage
-
----
-
-# 📦 Database Models
-
-## User Model
-
-Includes:
-
-* Full Name
-* Email
-* Password hashing
-* Roles
-* Address
-* Wishlist
-
-## Product Model
-
-Includes:
-
-* Name
-* Description
-* Price
-* Category
-* Inventory
-* Images
-* Ratings
-
-## Cart Model
-
-Includes:
-
-* User
-* Product
-* Quantity
-* Price
-
-## Order Model
-
-Includes:
-
-* Order items
-* Tracking history
-* Shipping address
-* Delivery status
-
-## Review Model
-
-Includes:
-
-* Rating
-* Comments
-* Product reference
-* User reference
+* Smooth animations
+* Hover interactions
+* Clean card layouts
+* Responsive navbar
+* Modern typography using Poppins
+* Mobile-friendly design
 
 ---
 
-# 👑 Make User Admin
+# 🚀 Deployment
 
-Run the admin promotion script:
+This project can be deployed easily on:
 
-```bash id="2i6mde"
-node scripts/makeAdmin.js user@example.com
-```
-
-This promotes the user to admin role. 
-
----
-
-# 🌐 Deployment
-
-This backend can be deployed on:
-
+* Netlify
 * Vercel
 * Render
-* Railway
 
-Current project includes:
+### Netlify Redirect Fix
 
-* `vercel.json`
-* Environment variable support
-* Production-ready structure
+Create a `_redirects` file inside `public/`:
 
----
-
-# 🧹 Code Formatting
-
-Format code using:
-
-```bash id="8sgh0l"
-npm run format
+```bash
+/* /index.html 200
 ```
 
-Uses:
-
-* Prettier
-* ESLint friendly structure
+This prevents refresh errors on React routes. 
 
 ---
 
-# 🔮 Future Improvements
+# 📈 Future Improvements
 
-* Razorpay/Stripe Integration
-* Email Verification
-* Forgot Password System
-* Wishlist API
-* Coupon System
+* Payment Gateway Integration
+* Order Tracking
+* Search & Filters
 * Inventory Analytics
-* Search & Filtering
-* Pagination
-* Real-time Order Tracking
-* Redis Caching
-
----
-
+* Email Verification
+* Mobile App Version
+  
 # 👨‍💻 Author
 
 Developed by Sheikh Raihan
