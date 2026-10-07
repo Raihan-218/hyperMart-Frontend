@@ -1,37 +1,49 @@
 .navbar {
-  background-color: var(--card-bg);
+  background-color: var(--card-bg, var(--background-color, #fff));
   border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
   z-index: 1000;
   padding: 0.75rem 0;
-  transition: background-color 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.navbarHidden {
+  transform: translateY(-100%);
+}
+
+.navbarHidden:focus-within {
+  transform: translateY(0);
 }
 
 .navContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 90%;
+  width: min(100%, 1200px);
   max-width: 1200px;
   margin: 0 auto;
+  gap: 1rem;
 }
 
 .logo {
-  font-size: 1.75rem;
+  font-size: clamp(1.3rem, 2vw, 1.75rem);
   font-weight: bold;
   color: var(--primary-color);
   text-decoration: none;
-  flex-shrink: 0; /* Prevents the logo from shrinking */
+  flex-shrink: 0;
 }
 
 .navLinks {
   display: flex;
   justify-content: center;
-  flex-grow: 1; /* Allows this section to take up available space */
-  gap: 2.5rem;
-  font-size: 1rem;
+  align-items: center;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  gap: 0.85rem 1.4rem;
+  font-size: 0.96rem;
   font-weight: 500;
+  min-width: 0;
 }
 
 .link {
@@ -40,9 +52,9 @@
   position: relative;
   padding-bottom: 0.5rem;
   transition: color 0.2s ease-in-out;
+  white-space: nowrap;
 }
 
-/* Underline effect on hover */
 .link::after {
   content: '';
   position: absolute;
@@ -66,22 +78,22 @@
 }
 
 .activeLink {
-  composes: link; /* Inherits all styles from .link */
+  composes: link;
   color: var(--primary-color);
   font-weight: 600;
 }
 
-/* Keeps the underline visible for the active link */
 .activeLink::after {
   transform: scaleX(1);
   background-color: var(--primary-color);
 }
 
-
 .navActions {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  flex-shrink: 0;
 }
 
 .iconButton {
@@ -95,6 +107,7 @@
   justify-content: center;
   color: var(--text-color);
   transition: background-color 0.2s, color 0.2s;
+  min-width: 2.5rem;
 }
 
 .iconButton:hover {
@@ -110,7 +123,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  background-color: #dc3545; /* A standard red color */
+  background-color: #dc3545;
   color: white;
   width: 18px;
   height: 18px;
@@ -121,4 +134,53 @@
   align-items: center;
   justify-content: center;
   transform: translate(40%, -40%);
+}
+
+@media (max-width: 900px) {
+  .navbar {
+    transform: none;
+  }
+
+  .navContainer {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .logo {
+    flex-basis: 100%;
+    text-align: center;
+  }
+
+  .navLinks {
+    order: 3;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.6rem 0;
+  }
+
+  .navContainer {
+    gap: 0.5rem 0.85rem;
+  }
+
+  .navLinks {
+    gap: 0.55rem 0.9rem;
+    font-size: 0.82rem;
+  }
+
+  .link {
+    padding-bottom: 0.35rem;
+  }
+
+  .navActions {
+    gap: 0.35rem;
+  }
+
+  .iconButton {
+    min-width: 2.25rem;
+    padding: 0.45rem;
+  }
 }

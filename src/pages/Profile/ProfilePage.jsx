@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { updateUserProfile } from '../../services/authService.js';
-import { getMyOrders } from '../../services/orderService.js';
+import { cancelMyOrder, getMyOrders } from '../../services/orderService.js';
 import { getWishlist, removeWishlistItem } from '../../services/wishlistService.js';
 import styles from './ProfilePage.module.css';
 
@@ -36,6 +36,9 @@ const ProfilePage = () => {
   const [orders, setOrders] = useState([]);
   const [isLoadingOrders, setIsLoadingOrders] = useState(false);
   const [ordersError, setOrdersError] = useState('');
+  const [ordersLoadError, setOrdersLoadError] = useState('');
+  const [ordersMessage, setOrdersMessage] = useState('');
+  const [cancellingOrderId, setCancellingOrderId] = useState('');
 
   useEffect(() => {
     setFormData(defaultFormState(user));
@@ -89,15 +92,38 @@ const ProfilePage = () => {
   const openOrderHistory = async () => {
     setActiveSection('orders');
     setOrdersError('');
+    setOrdersLoadError('');
+    setOrdersMessage('');
     setIsLoadingOrders(true);
 
     try {
       const response = await getMyOrders();
       setOrders(Array.isArray(response.data?.orders) ? response.data.orders : []);
     } catch (loadError) {
-      setOrdersError(typeof loadError === 'string' ? loadError : loadError.message || 'Could not load your order history.');
+      setOrdersLoadError(typeof loadError === 'string' ? loadError : loadError.message || 'Could not load your order history.');
     } finally {
       setIsLoadingOrders(false);
+    }
+  };
+
+  const handleCancelOrder = async (orderId) => {
+    if (cancellingOrderId || !window.confirm('Cancel this order? This action cannot be undone.')) return;
+
+    setCancellingOrderId(orderId);
+    setOrdersError('');
+    setOrdersMessage('');
+    try {
+      const response = await cancelMyOrder(orderId);
+      const updatedOrder = response.data?.order;
+      if (!updatedOrder) throw new Error('The cancellation response did not include the updated order.');
+      setOrders((currentOrders) => currentOrders.map((order) =>
+        order._id === orderId ? updatedOrder : order
+      ));
+      setOrdersMessage(response.data.message || 'Order cancelled successfully.');
+    } catch (cancelError) {
+      setOrdersError(cancelError?.response?.data?.message || cancelError?.message || 'Could not cancel this order.');
+    } finally {
+      setCancellingOrderId('');
     }
   };
 
@@ -163,13 +189,13 @@ const ProfilePage = () => {
             >
               My Profile
             </button>
-            <button
+            {/* <button
               type="button"
               className={`${styles.navItem} ${activeSection === 'orders' ? styles.active : ''}`}
               onClick={openOrderHistory}
             >
               My Orders
-            </button>
+            </button> */}
             <button
               type="button"
               className={`${styles.navItem} ${activeSection === 'orders' ? styles.active : ''}`}
@@ -214,10 +240,12 @@ const ProfilePage = () => {
 
           {activeSection === 'orders' ? (
             <section aria-label="Order history">
+              {ordersMessage && <div className={styles.successMessage} role="status">{ordersMessage}</div>}
+              {ordersError && <div className={styles.errorMessage} role="alert">{ordersError}</div>}
               {isLoadingOrders ? (
                 <p className={styles.wishlistStatus} role="status">Loading your orders...</p>
-              ) : ordersError ? (
-                <div className={styles.errorMessage} role="alert">{ordersError}</div>
+              ) : ordersLoadError ? (
+                <div className={styles.errorMessage} role="alert">{ordersLoadError}</div>
               ) : orders.length === 0 ? (
                 <div className={styles.emptyWishlist}>
                   <h2>No orders yet</h2>
@@ -226,7 +254,15 @@ const ProfilePage = () => {
                 </div>
               ) : (
                 <div className={styles.orderList}>
-                  {orders.map((order) => (
+                  {orders.map((order) => {
+                    const itemsSubtotal = Number(order.subtotal ?? (order.items || []).reduce(
+                      (sum, item) => sum + Number(item.price || 0) * Number(item.quantity || 1),
+                      0
+                    ));
+                    const taxAmount = Number(order.taxAmount ?? Math.max(0, Number(order.totalAmount || 0) - itemsSubtotal));
+                    const isCancellable = ['Pending', 'Confirmed', 'Processing'].includes(order.status || 'Pending');
+
+                    return (
                     <article className={styles.orderCard} key={order._id}>
                       <header className={styles.orderHeader}>
                         <div>
@@ -234,8 +270,9 @@ const ProfilePage = () => {
                           <p>{order.createdAt ? new Date(order.createdAt).toLocaleDateString() : 'Date unavailable'}</p>
                         </div>
                         <div className={styles.orderStatus}>
-                          <span>{order.status || 'Pending'}</span>
+                          <span className={order.status === 'Cancelled' ? styles.cancelledStatus : ''}>{order.status || 'Pending'}</span>
                           <strong>₹{Number(order.totalAmount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong>
+                          {order.refundStatus === 'pending' && <small>Refund pending</small>}
                         </div>
                       </header>
                       <ul className={styles.orderItems}>
@@ -251,8 +288,42 @@ const ProfilePage = () => {
                           </li>
                         ))}
                       </ul>
+                      <div className={styles.orderBreakdown}>
+                        <div><span>Items subtotal</span><span>₹{itemsSubtotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span></div>
+                        <div><span>GST (18%)</span><span>₹{taxAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span></div>
+                        <div><span>Shipping</span><span>{Number(order.shippingAmount || 0) === 0 ? 'Free' : `₹${Number(order.shippingAmount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}`}</span></div>
+                        {Number(order.discountAmount || 0) > 0 && <div><span>Discount</span><span>-₹{Number(order.discountAmount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span></div>}
+                        <div className={styles.orderTotal}><strong>Total</strong><strong>₹{Number(order.totalAmount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong></div>
+                      </div>
+                      <section className={styles.customerTimeline} aria-label={`Delivery updates for order ${String(order._id).slice(-8)}`}>
+                        <h3>Delivery updates</h3>
+                        <p className={styles.customerCurrentStatus}>Current status: <strong>{order.status || 'Pending'}</strong></p>
+                        {Array.isArray(order.trackingHistory) && order.trackingHistory.length > 0 ? (
+                          <ol>
+                            {order.trackingHistory.map((entry, index) => (
+                              <li key={`${order._id}-history-${index}`}>
+                                <strong>{entry.status || 'Status update'}</strong>
+                                <time>{entry.timestamp ? new Date(entry.timestamp).toLocaleString() : 'Time unavailable'}</time>
+                              </li>
+                            ))}
+                          </ol>
+                        ) : <p>No tracking updates are available yet.</p>}
+                      </section>
+                      {isCancellable && (
+                        <div className={styles.cancelOrderRow}>
+                          <button
+                            type="button"
+                            className={styles.cancelOrderButton}
+                            onClick={() => handleCancelOrder(order._id)}
+                            disabled={Boolean(cancellingOrderId)}
+                          >
+                            {cancellingOrderId === order._id ? 'Cancelling...' : 'Cancel Order'}
+                          </button>
+                        </div>
+                      )}
                     </article>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </section>

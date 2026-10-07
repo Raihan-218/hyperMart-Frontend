@@ -40,7 +40,7 @@ export default function InventoryPage() {
       setProducts((all) => all.map((item) => item._id === product._id ? data.updatedProduct : item));
       setDrafts((all) => { const next = { ...all }; delete next[product._id]; return next; });
       setMessage(`${product.name} inventory saved.`);
-    } catch (err) { setError(err?.response?.data?.message || err?.message || 'Unable to save inventory.'); }
+    } catch (err) { setError(err?.response?.data?.message || (typeof err === 'string' ? err : err?.message) || 'Unable to save inventory.'); }
     finally { setSaving(''); }
   };
 
@@ -52,7 +52,7 @@ export default function InventoryPage() {
       const variants = drafts[product._id] || product.inventory || [];
       const stockTotal = variants.reduce((total, variant) => total + Number(variant.stock || 0), 0);
       return <article className={styles.product} key={product._id}>
-        <div className={styles.productHead}><div><h2>{product.name}</h2><p>{product.category} · {product.type}</p></div><strong>{stockTotal} units</strong></div>
+        <div className={styles.productHead}><div><h2>{product.name}</h2><p>{product.category} · {product.type}</p></div><div className={styles.productActions}><strong>{stockTotal} units</strong><Link to={`/admin/products/${product._id}/edit`}>Edit product</Link></div></div>
         {variants.length ? <div className={styles.variants}>{variants.map((variant, index) => <label key={`${variant.color}-${variant.size}-${index}`}><span>{variant.color} / {variant.size}</span><input type="number" min="0" value={variant.stock} onChange={(event) => changeStock(product, index, event.target.value)} aria-label={`${product.name}, ${variant.color} ${variant.size} stock`} /></label>)}</div> : <p className={styles.empty}>No size and color inventory has been defined for this product.</p>}
         {variants.length > 0 && <button type="button" disabled={saving === product._id || !drafts[product._id]} onClick={() => save(product)}>{saving === product._id ? 'Saving…' : 'Save stock'}</button>}
       </article>;

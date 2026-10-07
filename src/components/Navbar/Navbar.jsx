@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { Sun, Moon, ShoppingCart, User } from 'lucide-react';
 import styles from './Navbar.module.css';
-import { useCart } from '../../context/CartContext';
+import { useCart } from '../../context/useCart';
 import { useAuth } from '../../context/AuthContext';
 
 
@@ -10,7 +10,58 @@ const Navbar = ({ theme, handleThemeSwitch }) => {
   const { cartItems } = useCart();
   const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
+  const [isHidden, setIsHidden] = useState(false);
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
+  useEffect(() => {
+    const desktopQuery = window.matchMedia('(min-width: 901px)');
+    let previousScrollY = window.scrollY;
+    let isNavbarHidden = false;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY <= 0) {
+        previousScrollY = 0;
+        if (isNavbarHidden) {
+          isNavbarHidden = false;
+          setIsHidden(false);
+        }
+        return;
+      }
+
+      const scrollDelta = currentScrollY - previousScrollY;
+      if (Math.abs(scrollDelta) < 8) return;
+
+      previousScrollY = currentScrollY;
+      const shouldHide = scrollDelta > 0;
+      if (shouldHide !== isNavbarHidden) {
+        isNavbarHidden = shouldHide;
+        setIsHidden(shouldHide);
+      }
+    };
+
+    const handleBreakpointChange = () => {
+      previousScrollY = window.scrollY;
+      if (desktopQuery.matches) {
+        window.addEventListener('scroll', handleScroll, { passive: true });
+      } else {
+        window.removeEventListener('scroll', handleScroll);
+        isNavbarHidden = false;
+        setIsHidden(false);
+      }
+    };
+
+    if (desktopQuery.matches) {
+      window.addEventListener('scroll', handleScroll, { passive: true });
+    }
+    desktopQuery.addEventListener('change', handleBreakpointChange);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      desktopQuery.removeEventListener('change', handleBreakpointChange);
+    };
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -27,7 +78,7 @@ const Navbar = ({ theme, handleThemeSwitch }) => {
   };
 
   return (
-    <nav className={styles.navbar}>
+    <nav className={`${styles.navbar} ${isHidden ? styles.navbarHidden : ''}`}>
       <div className={`${styles.navContainer} container`}>
         {/* Logo */}
         <Link to="/" className={styles.logo}>hyperMart</Link>

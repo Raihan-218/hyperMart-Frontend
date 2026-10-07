@@ -4,7 +4,7 @@ import { Check, ChevronLeft, ChevronRight, Heart, ImageOff, Minus, Plus, RotateC
 import styles from './productDetails.module.css';
 import ProductCard from '../../components/ProductCard/productCards.jsx';
 import { useAuth } from '../../context/AuthContext.jsx';
-import { useCart } from '../../context/CartContext.jsx';
+import { useCart } from '../../context/useCart.js';
 import { getProductById, getProductsByCategory } from '../../services/productService.js';
 import { addReview, deleteReview, getReviews } from '../../services/reviewService.js';
 import { getWishlist, toggleWishlist } from '../../services/wishlistService.js';
@@ -575,7 +575,7 @@ const ProductDetailPage = () => {
 
               return (
                 <article className={styles.reviewCard} key={review._id || review.id || `${author}-${index}`}>
-                  <div className={styles.reviewHeader}> 
+                  <div className={styles.reviewHeader}>
                     <strong>{author}</strong>
                     <StarRating rating={Number(review.rating) || 0} label={`${author}'s rating`} />
                   </div>

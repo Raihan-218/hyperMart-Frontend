@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './App.css';
 import ProtectedRoute from './components/protectedRoute.jsx';
 
 // CONTEXT PROVIDER
-import { CartProvider } from './context/CartContext.jsx';
+import { CartProvider } from './context/CartProvider.jsx';
 
 // LAYOUT COMPONENTS
 import Navbar from './components/Navbar/Navbar.jsx';
@@ -26,7 +27,9 @@ import SupportPage from './pages/SupportPage/SupportPage.jsx';
 import AdminRoute from './components/AdminRoute.jsx';
 import AdminDashboard from './pages/Admin/AdminDashboard.jsx';
 import AddProductPage from './pages/Admin/AddProductPage.jsx';
+import AdminProductEditPage from './pages/Admin/AdminProductEditPage.jsx';
 import InventoryPage from './pages/Admin/InventoryPage.jsx';
+import AdminOrderDetails from './pages/Admin/AdminOrderDetails.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
 
 function App() {
@@ -50,7 +53,7 @@ function App() {
     <AuthProvider>
 
       <CartProvider>
-        <div className="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200 min-h-screen flex flex-col">
+        <div className="min-h-screen flex flex-col">
           <Router>
             <Navbar theme={theme} handleThemeSwitch={handleThemeSwitch} />
 
@@ -98,7 +101,9 @@ function App() {
                 <Route element={<AdminRoute />}>
                   <Route path="/admin/dashboard" element={<AdminDashboard />} />
                   <Route path="/admin/add-product" element={<AddProductPage />} />
+                  <Route path="/admin/products/:productId/edit" element={<AdminProductEditPage />} />
                   <Route path="/admin/inventory" element={<InventoryPage />} />
+                  <Route path="/admin/orders/:orderId" element={<AdminOrderDetails />} />
                 </Route>
 
               </Routes>

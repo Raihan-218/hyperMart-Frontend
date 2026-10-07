@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useCart } from '../../context/CartContext';
+import { useCart } from '../../context/useCart';
 import { useAuth } from '../../context/AuthContext';
 import styles from './CartPage.module.css';
 
@@ -15,7 +15,7 @@ const defaultAddress = (user) => ({
 const CartPage = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { cartItems, removeFromCart, updateQuantity, checkoutCart, loading } = useCart();
+  const { cartItems, cartTotals, removeFromCart, updateQuantity, checkoutCart, loading } = useCart();
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [checkoutError, setCheckoutError] = useState('');
   const [shippingAddress, setShippingAddress] = useState(defaultAddress(user));
@@ -24,7 +24,6 @@ const CartPage = () => {
     setShippingAddress(defaultAddress(user));
   }, [user]);
 
-  const subtotal = cartItems.reduce((sum, item) => sum + Number(item.price || 0) * Number(item.quantity || 0), 0);
   const totalItems = cartItems.reduce((sum, item) => sum + Number(item.quantity || 0), 0);
 
   const updateAddressField = (field, value) => {
@@ -90,15 +89,25 @@ const CartPage = () => {
             <h2 className={styles.summaryTitle}>Order Summary</h2>
             <div className={styles.summaryLine}>
               <span>Subtotal ({totalItems} items)</span>
-              <span>₹{subtotal.toFixed(2)}</span>
+              <span>₹{Number(cartTotals.subtotal || 0).toFixed(2)}</span>
+            </div>
+            <div className={styles.summaryLine}>
+              <span>GST (18%)</span>
+              <span>₹{Number(cartTotals.taxAmount || 0).toFixed(2)}</span>
             </div>
             <div className={styles.summaryLine}>
               <span>Shipping</span>
-              <span>Free</span>
+              <span>{Number(cartTotals.shippingAmount || 0) === 0 ? 'Free' : `₹${Number(cartTotals.shippingAmount).toFixed(2)}`}</span>
             </div>
+            {Number(cartTotals.discountAmount || 0) > 0 && (
+              <div className={styles.summaryLine}>
+                <span>Discount</span>
+                <span>-₹{Number(cartTotals.discountAmount).toFixed(2)}</span>
+              </div>
+            )}
             <div className={`${styles.summaryLine} ${styles.summaryTotal}`}>
               <span>Total</span>
-              <span>₹{subtotal.toFixed(2)}</span>
+              <span>₹{Number(cartTotals.totalAmount || 0).toFixed(2)}</span>
             </div>
 
             <div className={styles.addressSection}>

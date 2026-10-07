@@ -26,12 +26,11 @@
   position: relative;
   display: flex;
   align-items: center;
-  height: 70vh;
-  min-height: 400px;
-  max-height: 600px;
+  min-height: clamp(320px, 50vh, 540px);
+  height: clamp(320px, 58vh, 540px);
   margin: 2rem 0 4rem 0;
   border-radius: 12px;
-  overflow: hidden; /* Important for border-radius and pseudo-elements */
+  overflow: hidden;
   color: white;
 }
 
@@ -42,7 +41,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-  /* Make sure you have a 'hero-bg.jpg' in your public/assets folder */
   background-image: linear-gradient(75deg, rgba(0, 0, 0, 0.7) 10%, rgba(0, 0, 0, 0.2) 60%), url('/assets/hero.jpg');
   background-size: cover;
   background-position: center;
@@ -52,16 +50,17 @@
 
 .heroContent {
   position: relative;
-  padding: 2rem 4rem;
   z-index: 2;
-  max-width: 600px;
+  max-width: min(100%, 600px);
+  padding: clamp(1.25rem, 3vw, 2.5rem) clamp(1.25rem, 4vw, 4rem);
 }
 
 .heroTitle {
-  font-size: clamp(2.5rem, 5vw, 4rem); /* Responsive font size */
+  font-size: clamp(2.2rem, 5vw, 4rem);
   font-weight: 800;
   margin: 0;
-  line-height: 1.1;
+  line-height: 1.08;
+  overflow-wrap: break-word;
 }
 
 .heroSubtitle {
@@ -93,13 +92,11 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Featured Product Sections */
 .section {
-  padding: 4rem 2rem;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 2vw, 2rem);
   margin-bottom: 2rem;
   background-color: var(--section-bg-color);
   border-radius: 12px;
-  /* Animation */
   opacity: 0;
   animation: fadeIn 0.8s ease-out forwards;
 }
@@ -107,12 +104,13 @@
 .sectionHeader {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start; /* Align to top */
+  align-items: flex-start;
+  gap: 1rem;
   margin-bottom: 2rem;
 }
 
 .sectionTitle {
-  font-size: 2.25rem;
+  font-size: clamp(1.7rem, 3vw, 2.25rem);
   font-weight: 700;
   margin: 0;
   line-height: 1.2;
@@ -134,19 +132,60 @@
   border: 1px solid var(--border-color);
   border-radius: 50px;
   transition: all 0.3s ease;
-  white-space: nowrap; /* Prevents button from wrapping */
+  white-space: nowrap;
 }
 
 .viewAllLink:hover {
-  background-color: var(--primary-color);
-  color: var(--background-color);
-  border-color: var(--primary-color);
+  background-color: var(--button-bg);
+  color: #fff;
+  border-color: var(--button-bg);
   transform: translateY(-2px);
 }
 
-/* Product Grid */
 .productGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: clamp(1rem, 2vw, 2rem);
+}
+
+:global(.dark) .heroButton { background-color: #245c4b; color: #fff; }
+:global(.dark) .heroButton:hover { color: #fff; }
+:global(.dark) .section { border: 1px solid #161616; }
+:global(.dark) .viewAllLink:hover { background-color: #245c4b; border-color: #245c4b; }
+
+@media (max-width: 768px) {
+  .hero {
+    margin-top: 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .sectionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .viewAllLink {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroContent {
+    max-width: 100%;
+    padding: 1.25rem 1rem;
+  }
+
+  .heroButton {
+    width: 100%;
+    text-align: center;
+  }
+
+  .section {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .productGrid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
 }

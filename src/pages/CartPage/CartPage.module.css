@@ -3,7 +3,7 @@
 }
 
 .pageTitle {
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 3vw, 2.5rem);
   font-weight: 700;
   text-align: center;
   margin-bottom: 2rem;
@@ -11,7 +11,7 @@
 
 .emptyCart {
   text-align: center;
-  padding: 4rem;
+  padding: clamp(2rem, 6vw, 4rem);
   border: 2px dashed var(--border-color);
   border-radius: 8px;
 }
@@ -22,6 +22,7 @@
 }
 
 .shopLink {
+  display: inline-block;
   padding: 0.75rem 1.5rem;
   background-color: var(--primary-color);
   color: #fff;
@@ -37,16 +38,23 @@
 
 .cartGrid {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
   gap: 2rem;
+  align-items: start;
+}
+
+.cartItems {
+  min-width: 0;
 }
 
 .cartItem {
   display: flex;
-  gap: 1.5rem;
+  align-items: flex-start;
+  gap: 1rem;
   padding: 1rem;
   border-bottom: 1px solid var(--border-color);
   background-color: var(--card-bg);
+  min-width: 0;
 }
 
 .itemImage {
@@ -54,16 +62,19 @@
   height: 120px;
   object-fit: cover;
   border-radius: 4px;
+  flex-shrink: 0;
 }
 
 .itemDetails {
-  flex-grow: 1;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .itemName {
   font-size: 1.1rem;
   font-weight: 600;
   margin: 0 0 0.5rem 0;
+  word-break: break-word;
 }
 
 .itemPrice {
@@ -84,6 +95,7 @@
   cursor: pointer;
   height: fit-content;
   transition: all 0.2s;
+  flex-shrink: 0;
 }
 
 .removeButton:hover {
@@ -97,6 +109,7 @@
   border-radius: 8px;
   border: 1px solid var(--border-color);
   height: fit-content;
+  min-width: 0;
 }
 
 .summaryTitle {
@@ -108,6 +121,7 @@
 .summaryLine {
   display: flex;
   justify-content: space-between;
+  gap: 1rem;
   margin-bottom: 1rem;
   font-size: 1rem;
 }
@@ -206,9 +220,68 @@
   background-color: var(--border-color);
 }
 
-/* Responsive adjustments */
+:global(.dark) .cartItem,
+:global(.dark) .cartSummary {
+  background-color: #0d0d0d;
+}
+
+:global(.dark) .cartSummary,
+:global(.dark) .emptyCart {
+  border-color: #262626;
+}
+
+:global(.dark) .itemPrice,
+:global(.dark) .itemOptions { color: #a1a1aa; }
+
+:global(.dark) .checkoutButton,
+:global(.dark) .shopLink {
+  background-color: #245c4b;
+  color: #fff;
+}
+
+:global(.dark) .checkoutButton:hover,
+:global(.dark) .shopLink:hover { background-color: #39795f; }
+
+:global(.dark) .quantityControls button {
+  background-color: #161616;
+  color: #f5f5f5;
+}
+
+:global(.dark) .errorMessage { color: #fca5a5; }
+
 @media (max-width: 768px) {
   .cartGrid {
     grid-template-columns: 1fr;
+  }
+
+  .cartItem {
+    flex-wrap: wrap;
+  }
+
+  .removeButton {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .cartContainer {
+    padding-top: 1.25rem;
+  }
+
+  .cartItem {
+    padding: 0.85rem;
+  }
+
+  .itemImage {
+    width: 76px;
+    height: 92px;
+  }
+
+  .summaryLine {
+    font-size: 0.95rem;
+  }
+
+  .addressFields input {
+    font-size: 0.95rem;
   }
 }

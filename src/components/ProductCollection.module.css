@@ -10,3 +10,12 @@
 .pagination button { border: 1px solid #d1d5db; border-radius: .5rem; padding: .6rem 1rem; background: transparent; color: inherit; cursor: pointer; }
 .pagination button:disabled { opacity: .45; cursor: not-allowed; }
 .error { color: #b42318; }
+
+:global(.dark) .description,
+:global(.dark) .resultCount { color: #a1a1aa; }
+
+:global(.dark) .filters input,
+:global(.dark) .filters select,
+:global(.dark) .pagination button { border-color: #303030; }
+
+:global(.dark) .error { color: #fca5a5; }

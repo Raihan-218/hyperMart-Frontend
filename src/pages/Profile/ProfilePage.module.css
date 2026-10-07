@@ -419,6 +419,147 @@
   white-space: nowrap;
 }
 
+.orderBreakdown {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0 1.2rem;
+  padding: 1rem 0;
+  border-top: 1px solid #e5e7eb;
+  color: #6b7280;
+}
+
+.orderBreakdown > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.orderBreakdown .orderTotal {
+  padding-top: 0.7rem;
+  border-top: 1px solid #e5e7eb;
+  color: #111827;
+}
+
+.cancelOrderRow {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 1.2rem 1rem;
+}
+
+.cancelOrderButton {
+  border: 1px solid #dc3545;
+  border-radius: 8px;
+  padding: 0.65rem 0.9rem;
+  background: transparent;
+  color: #b42318;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancelOrderButton:hover:not(:disabled) {
+  background: #dc3545;
+  color: #fff;
+}
+
+.cancelOrderButton:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.customerTimeline {
+  margin: 0 1.2rem 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.customerTimeline h3 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.customerCurrentStatus { margin: 0.35rem 0 0.75rem; color: #6b7280; }
+.customerTimeline ol { display: grid; gap: 0.65rem; margin: 0; padding-left: 1.2rem; }
+.customerTimeline li { padding-left: 0.2rem; }
+.customerTimeline li strong,
+.customerTimeline li time { display: block; }
+.customerTimeline li time,
+.customerTimeline > p:last-child { color: #6b7280; font-size: 0.85rem; }
+
+.cancelledStatus {
+  background: #fee2e2 !important;
+  color: #991b1b !important;
+}
+
+:global(.dark) .sidebar,
+:global(.dark) .content,
+:global(.dark) .orderCard,
+:global(.dark) .wishlistCard {
+  background: #0d0d0d;
+  border-color: #262626;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+:global(.dark) .profileBadge,
+:global(.dark) .detailRow,
+:global(.dark) .orderItems li,
+:global(.dark) .orderBreakdown,
+:global(.dark) .orderBreakdown .orderTotal,
+:global(.dark) .customerTimeline {
+  border-color: #262626;
+}
+
+:global(.dark) .greeting,
+:global(.dark) .kicker,
+:global(.dark) .detailRow span,
+:global(.dark) .wishlistStatus,
+:global(.dark) .emptyWishlist p,
+:global(.dark) .orderHeader p,
+:global(.dark) .orderItems small,
+:global(.dark) .orderBreakdown,
+:global(.dark) .customerCurrentStatus,
+:global(.dark) .customerTimeline li time,
+:global(.dark) .customerTimeline > p:last-child {
+  color: #a1a1aa;
+}
+
+:global(.dark) .navItem { color: #d4d4d8; }
+:global(.dark) .logout { color: #fca5a5; }
+:global(.dark) .navItem:hover,
+:global(.dark) .navItem.active { background: #161616; color: #fff; }
+:global(.dark) .headerRow h1,
+:global(.dark) .customerTimeline h3,
+:global(.dark) .detailCard h3,
+:global(.dark) .detailRow strong,
+:global(.dark) .emptyWishlist h2,
+:global(.dark) .wishlistProductLink h2,
+:global(.dark) .orderHeader h2,
+:global(.dark) .orderItems li,
+:global(.dark) .orderBreakdown .orderTotal { color: #f5f5f5; }
+:global(.dark) .primaryButton { background: #245c4b; color: #fff; }
+:global(.dark) .secondaryButton,
+:global(.dark) .detailCard,
+:global(.dark) .orderHeader,
+:global(.dark) .wishlistImage,
+:global(.dark) .wishlistImagePlaceholder {
+  background: #111111;
+  border-color: #262626;
+  color: #e4e4e7;
+}
+:global(.dark) .form label,
+:global(.dark) .wishlistPrice,
+:global(.dark) .orderStatus { color: #d4d4d8; }
+:global(.dark) .form input { background: #111111; border-color: #303030; color: #f5f5f5; }
+:global(.dark) .form input:disabled { background: #161616; color: #a1a1aa; }
+:global(.dark) .form input:focus { border-color: #72bd96; box-shadow: 0 0 0 3px rgba(114, 189, 150, 0.2); }
+:global(.dark) .successMessage { background: #10251a; color: #a7f3d0; border-color: #245c4b; }
+:global(.dark) .errorMessage { background: #2a1111; color: #fecaca; border-color: #7f1d1d; }
+:global(.dark) .orderStatus span { background: #10251a; color: #a7f3d0; }
+:global(.dark) .orderStatus .cancelledStatus { background: #2a1111 !important; color: #fecaca !important; }
+:global(.dark) .removeWishlistButton { background: #111111; border-color: #303030; color: #fca5a5; }
+:global(.dark) .cancelOrderButton { border-color: #f87171; color: #fca5a5; }
+:global(.dark) .cancelOrderButton:hover:not(:disabled) { background: #7f1d1d; color: #fff; }
+
 @media (max-width: 850px) {
   .shell {
     grid-template-columns: 1fr;

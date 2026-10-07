@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './AdminDashboard.module.css'; // We'll create this file
+import styles from './AdminDashboard.module.css';
 
 const AdminDashboard = () => {
   const [orders, setOrders] = useState([]);
@@ -52,12 +52,18 @@ const AdminDashboard = () => {
       {loading && <p>Loading orders...</p>}
       {error && <p className={styles.errorText}>Error: {error}</p>}
 
-      {!loading && !error && (
+      {!loading && !error && orders.length === 0 && (
+        <p className={styles.emptyOrders}>No customer orders yet.</p>
+      )}
+
+      {!loading && !error && orders.length > 0 && (
+        <div className={styles.tableWrap}>
         <table className={styles.ordersTable}>
           <thead>
             <tr>
               <th>Order ID</th>
               <th>Customer Email</th>
+              <th>Order Date</th>
               <th>Total</th>
               <th>Status</th>
               <th>Actions</th>
@@ -68,19 +74,21 @@ const AdminDashboard = () => {
               <tr key={order._id}>
                 <td>{order._id}</td>
                 <td>{order.user?.email || 'N/A'}</td>
-                <td>₹{order.totalAmount.toFixed(2)}</td>
+                <td>{order.createdAt ? new Date(order.createdAt).toLocaleDateString() : '—'}</td>
+                <td>₹{Number(order.totalAmount || 0).toFixed(2)}</td>
                 <td>
-                  <span className={`${styles.status} ${styles[order.status?.toLowerCase().replace(' ', '')]}`}>
-                    {order.status}
+                  <span className={`${styles.status} ${styles[order.status?.toLowerCase().replaceAll(' ', '')] || ''}`}>
+                    {order.status || 'Pending'}
                   </span>
                 </td>
                 <td>
-                  <button className={styles.actionButton}>View/Edit</button>
+                  <Link to={`/admin/orders/${order._id}`} className={styles.actionButton}>View details</Link>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </div>
   );

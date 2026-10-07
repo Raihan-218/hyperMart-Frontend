@@ -40,6 +40,15 @@
   gap: 1.5rem;
   padding-bottom: 3rem;
 }
+
+:global(.dark) .activeButton {
+  background-color: #245c4b;
+  border-color: #245c4b;
+  color: #fff;
+}
+
+:global(.dark) .filterButton { color: #a1a1aa; }
+:global(.dark) .filterButton:hover { background-color: #161616; border-color: #303030; }
 /* src/pages/MensPage/CategoryPage.module.css */
 
 /* Keyframe for fade-in animation */

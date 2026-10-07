@@ -20,7 +20,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-t border-gray-200 dark:border-gray-700">
+    <footer className="bg-gray-100 dark:bg-[#0A0A0A] text-gray-700 dark:text-gray-300 border-t border-gray-200 dark:border-[#262626]">
       <div className="container mx-auto px-6 py-12">
         {/* Top section with links and newsletter */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -64,7 +64,7 @@ const Footer = () => {
                   value={newsletterEmail}
                   onChange={(event) => setNewsletterEmail(event.target.value)}
                   placeholder="Your email"
-                  className="w-full px-4 py-2 rounded-l-md border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 rounded-l-md border-gray-300 dark:bg-[#111111] dark:border-[#303030] focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <button type="submit" className="bg-blue-600 text-white p-2 rounded-r-md hover:bg-blue-700">
                   <Send size={20} />

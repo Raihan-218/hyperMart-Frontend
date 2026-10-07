@@ -118,13 +118,13 @@ const SupportPage = ({ pageKey = 'about' }) => {
   const support = SUPPORT_ITEMS[pageKey] || SUPPORT_ITEMS.about;
 
   return (
-    <main className="container mx-auto px-4 py-12 text-slate-800 dark:text-slate-200">
-      <div className="max-w-3xl mx-auto rounded-2xl border border-slate-200 bg-white/80 p-8 shadow-sm dark:border-slate-700 dark:bg-slate-900/80">
+    <main className="container mx-auto px-4 py-12 text-slate-800 dark:text-slate-100">
+      <div className="max-w-3xl mx-auto rounded-2xl border border-slate-200 bg-white p-8 shadow-sm dark:border-[#262626] dark:bg-[#0D0D0D]">
         <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
           {support.eyebrow}
         </p>
         <h1 className="mb-4 text-3xl font-bold sm:text-4xl">{support.title}</h1>
-        <p className="mb-6 text-base leading-7 text-slate-600 dark:text-slate-300">{support.description}</p>
+        <p className="mb-6 text-base leading-7 text-slate-600 dark:text-[#A1A1AA]">{support.description}</p>
 
         <ul className="space-y-3 text-slate-700 dark:text-slate-200">
           {support.bullets.map((bullet) => (
@@ -139,7 +139,7 @@ const SupportPage = ({ pageKey = 'about' }) => {
           <Link to="/" className="rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-emerald-700">
             Continue shopping
           </Link>
-          <Link to="/help" className="rounded-full border border-slate-300 px-5 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-100 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800">
+          <Link to="/help" className="rounded-full border border-slate-300 px-5 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-100 dark:border-[#303030] dark:text-slate-200 dark:hover:bg-[#161616]">
             Help center
           </Link>
         </div>

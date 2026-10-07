@@ -16,6 +16,8 @@ export const addProduct = (formData) =>
     },
   });
 
-// Use the existing admin product update route so stock edits also work with
-// backend instances that have not yet reloaded the newer inventory alias.
-export const updateProduct = (id, payload) => api.put(`/products/updateProduct/${id}`, payload);
+export const updateProduct = (id, payload) => api.put(
+  `/products/updateProduct/${id}`,
+  payload,
+  payload instanceof FormData ? { headers: { 'Content-Type': 'multipart/form-data' } } : undefined
+);
