@@ -19,7 +19,7 @@ const Navbar = ({ theme, handleThemeSwitch }) => {
         credentials: 'include'
       });
     } catch (err) {
-      console.error("Logout failed", err);
+      console.error('Logout failed', err);
     } finally {
       logout();
       navigate('/login');
@@ -64,11 +64,16 @@ const Navbar = ({ theme, handleThemeSwitch }) => {
           </Link>
 
           {isAuthenticated ? (
-            <button onClick={logout} className={styles.iconButton}>
-              Logout
-            </button>
+            <>
+              <Link to="/profile" className={styles.iconButton} aria-label="View account profile">
+                <User size={20} />
+              </Link>
+              <button onClick={handleLogout} className={styles.iconButton}>
+                Logout
+              </button>
+            </>
           ) : (
-            <Link to="/login" className={styles.iconButton}>
+            <Link to="/login" className={styles.iconButton} aria-label="Login to your account">
               <User size={20} />
             </Link>
           )}

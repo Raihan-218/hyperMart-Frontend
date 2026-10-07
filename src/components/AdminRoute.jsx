@@ -3,12 +3,14 @@ import { useAuth } from '../context/AuthContext';
 import { Navigate, Outlet } from 'react-router-dom';
 
 const AdminRoute = () => {
-  const { isLoggedIn, user } = useAuth();
+  const { isAuthenticated, user, loading } = useAuth();
 
-  if (isLoggedIn && user?.role === 'admin') {
+  if (loading) return <div className="container">Checking access…</div>;
+
+  if (isAuthenticated && user?.role === 'admin') {
     return <Outlet />; 
   }
-  if (isLoggedIn && user?.role !== 'admin') {
+  if (isAuthenticated && user?.role !== 'admin') {
     return <Navigate to="/" replace />;
   }
   return <Navigate to="/login" replace />;

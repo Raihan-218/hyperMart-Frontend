@@ -1,16 +1,60 @@
-// src/pages/CartPage/CartPage.jsx
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { useAuth } from '../../context/AuthContext';
 import styles from './CartPage.module.css';
-import { Link } from 'react-router-dom';
+
+const defaultAddress = (user) => ({
+  street: user?.address?.street || '',
+  city: user?.address?.city || '',
+  state: user?.address?.state || '',
+  postalCode: user?.address?.postalCode || '',
+  country: user?.address?.country || 'India',
+});
 
 const CartPage = () => {
-  // 1. Get updateQuantity as well, just in case
-  const { cartItems, removeFromCart, updateQuantity } = useCart(); 
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const { cartItems, removeFromCart, updateQuantity, checkoutCart, loading } = useCart();
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [checkoutError, setCheckoutError] = useState('');
+  const [shippingAddress, setShippingAddress] = useState(defaultAddress(user));
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  useEffect(() => {
+    setShippingAddress(defaultAddress(user));
+  }, [user]);
+
+  const subtotal = cartItems.reduce((sum, item) => sum + Number(item.price || 0) * Number(item.quantity || 0), 0);
+  const totalItems = cartItems.reduce((sum, item) => sum + Number(item.quantity || 0), 0);
+
+  const updateAddressField = (field, value) => {
+    setShippingAddress((current) => ({ ...current, [field]: value }));
+  };
+
+  const handleCheckout = async () => {
+    if (cartItems.length === 0) {
+      setCheckoutError('Your cart is empty.');
+      return;
+    }
+
+    const missing = !shippingAddress.street || !shippingAddress.city || !shippingAddress.state || !shippingAddress.postalCode;
+    if (missing) {
+      setCheckoutError('Please add a complete shipping address before checkout.');
+      return;
+    }
+
+    try {
+      setCheckoutLoading(true);
+      setCheckoutError('');
+      await checkoutCart(shippingAddress);
+      navigate('/profile');
+    } catch (error) {
+      const message = error?.response?.data?.message || 'Unable to create your order right now.';
+      setCheckoutError(message);
+    } finally {
+      setCheckoutLoading(false);
+    }
+  };
 
   return (
     <div className={`${styles.cartContainer} container`}>
@@ -23,29 +67,20 @@ const CartPage = () => {
       ) : (
         <div className={styles.cartGrid}>
           <div className={styles.cartItems}>
-            {cartItems.map(item => (
-              // 2. Use item.cartItemId for the key, as it's truly unique
-              <div key={item.cartItemId} className={styles.cartItem}> 
+            {cartItems.map((item) => (
+              <div key={item.cartItemId} className={styles.cartItem}>
                 <img src={item.image} alt={item.name} className={styles.itemImage} />
                 <div className={styles.itemDetails}>
                   <h3 className={styles.itemName}>{item.name}</h3>
-                  <p className={styles.itemPrice}>₹{item.price.toFixed(2)}</p>
-                  
-                  {/* 3. Added item color and size for clarity */}
-                  <p className={styles.itemOptions}>{item.color} / {item.size}</p> 
-                  
-                  {/* 4. (Optional) Add a quantity updater */}
+                  <p className={styles.itemPrice}>₹{Number(item.price || 0).toFixed(2)}</p>
+                  <p className={styles.itemOptions}>{item.color || 'Default'} / {item.size || 'One Size'}</p>
                   <div className={styles.quantityControls}>
-                    <button onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}>-</button>
+                    <button type="button" onClick={() => updateQuantity(item.cartItemId, Number(item.quantity || 0) - 1)} aria-label="Decrease quantity">-</button>
                     <span>{item.quantity}</span>
-                    <button onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}>+</button>
+                    <button type="button" onClick={() => updateQuantity(item.cartItemId, Number(item.quantity || 0) + 1)} aria-label="Increase quantity">+</button>
                   </div>
                 </div>
-                <button 
-                  // 5. THE FIX: Use item.cartItemId here
-                  onClick={() => removeFromCart(item.cartItemId)} 
-                  className={styles.removeButton}
-                >
+                <button type="button" onClick={() => removeFromCart(item.cartItemId)} className={styles.removeButton}>
                   Remove
                 </button>
               </div>
@@ -65,7 +100,22 @@ const CartPage = () => {
               <span>Total</span>
               <span>₹{subtotal.toFixed(2)}</span>
             </div>
-            <button className={styles.checkoutButton}>Proceed to Checkout</button>
+
+            <div className={styles.addressSection}>
+              <h3>Shipping Address</h3>
+              <div className={styles.addressFields}>
+                <input value={shippingAddress.street} onChange={(event) => updateAddressField('street', event.target.value)} placeholder="Street address" />
+                <input value={shippingAddress.city} onChange={(event) => updateAddressField('city', event.target.value)} placeholder="City" />
+                <input value={shippingAddress.state} onChange={(event) => updateAddressField('state', event.target.value)} placeholder="State" />
+                <input value={shippingAddress.postalCode} onChange={(event) => updateAddressField('postalCode', event.target.value)} placeholder="Postal code" />
+                <input value={shippingAddress.country} onChange={(event) => updateAddressField('country', event.target.value)} placeholder="Country" />
+              </div>
+            </div>
+
+            {checkoutError && <p className={styles.errorMessage} role="alert">{checkoutError}</p>}
+            <button className={styles.checkoutButton} onClick={handleCheckout} disabled={checkoutLoading || loading}>
+              {checkoutLoading ? 'Processing...' : 'Proceed to Checkout'}
+            </button>
           </div>
         </div>
       )}

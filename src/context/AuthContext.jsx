@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+
 import { createContext, useContext, useEffect, useState } from 'react';
 import {
   loginUser,
@@ -13,7 +15,17 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // 🔹 On app load, check auth status
+  const refreshUser = async () => {
+    try {
+      const res = await getCurrentUser();
+      setUser(res.data.user);
+      return res.data.user;
+    } catch {
+      setUser(null);
+      return null;
+    }
+  };
+
   useEffect(() => {
     const loadUser = async () => {
       try {
@@ -31,7 +43,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     const res = await loginUser(credentials);
     setUser(res.data.user);
-    return res.data; // Return data for component to use
+    return res.data;
   };
 
   const logout = async () => {
@@ -47,6 +59,7 @@ export const AuthProvider = ({ children }) => {
         login,
         logout,
         loading,
+        refreshUser,
       }}
     >
       {children}

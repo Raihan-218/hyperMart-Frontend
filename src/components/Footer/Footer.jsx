@@ -1,8 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Send } from 'lucide-react';
 
 const Footer = () => {
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterMessage, setNewsletterMessage] = useState('');
+
+  const handleNewsletterSubmit = (event) => {
+    event.preventDefault();
+    const trimmedEmail = newsletterEmail.trim();
+
+    if (!trimmedEmail) {
+      setNewsletterMessage('Please enter a valid email address.');
+      return;
+    }
+
+    setNewsletterMessage('Thanks for subscribing — we will keep you posted on new arrivals.');
+    setNewsletterEmail('');
+  };
+
   return (
     <footer className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-t border-gray-200 dark:border-gray-700">
       <div className="container mx-auto px-6 py-12">
@@ -41,15 +57,20 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">Stay Up to Date</h4>
             <p className="text-sm mb-3">Get notified about new arrivals and exclusive offers.</p>
-            <form className="flex">
-              <input 
-                type="email" 
-                placeholder="Your email" 
-                className="w-full px-4 py-2 rounded-l-md border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <button type="submit" className="bg-blue-600 text-white p-2 rounded-r-md hover:bg-blue-700">
-                <Send size={20} />
-              </button>
+            <form className="flex flex-col gap-2" onSubmit={handleNewsletterSubmit}>
+              <div className="flex">
+                <input
+                  type="email"
+                  value={newsletterEmail}
+                  onChange={(event) => setNewsletterEmail(event.target.value)}
+                  placeholder="Your email"
+                  className="w-full px-4 py-2 rounded-l-md border-gray-300 dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <button type="submit" className="bg-blue-600 text-white p-2 rounded-r-md hover:bg-blue-700">
+                  <Send size={20} />
+                </button>
+              </div>
+              {newsletterMessage && <p className="text-xs text-emerald-700 dark:text-emerald-400">{newsletterMessage}</p>}
             </form>
           </div>
         </div>

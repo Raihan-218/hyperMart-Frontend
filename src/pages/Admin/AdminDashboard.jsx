@@ -42,7 +42,10 @@ const AdminDashboard = () => {
     <div className={`${styles.dashboardContainer} container`}>
       <div className={styles.headerRow}>
         <h1 className={styles.pageTitle}>Admin Dashboard</h1>
-        <Link to="/admin/add-product" className={styles.addButton}>+ Add New Product</Link>
+        <div style={{ display: 'flex', gap: '.75rem' }}>
+          <Link to="/admin/inventory" className={styles.addButton}>Manage Inventory</Link>
+          <Link to="/admin/add-product" className={styles.addButton}>+ Add New Product</Link>
+        </div>
       </div>
       <h2 className={styles.sectionTitle}>All Customer Orders</h2>
 

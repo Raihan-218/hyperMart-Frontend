@@ -2,11 +2,14 @@ import api from './api';
 
 export const getCart = () => api.get('/carts');
 
-export const addToCart = (product_id, qty) =>
-  api.post('/carts/add', { product_id, qty });
+export const addToCart = (product_id, qty, color, size) =>
+  api.post('/carts/add', { product_id, qty, color, size });
 
-export const removeCartItem = (product_id) =>
-  api.delete(`/carts/remove/${product_id}`);
+export const updateCartItemQuantity = (cartItemId, qty) =>
+  api.patch(`/carts/update/${cartItemId}`, { qty });
 
-export const checkout = () =>
-  api.post('/carts/checkout');
+export const removeCartItem = (cartItemId) =>
+  api.delete(`/carts/remove/${cartItemId}`);
+
+export const checkout = (shippingAddress) =>
+  api.post('/carts/checkout', { shippingAddress });

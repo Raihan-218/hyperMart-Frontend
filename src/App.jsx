@@ -18,11 +18,15 @@ import LoginPage from './pages/LoginPage/loginPage.jsx';
 import SignUpPage from './pages/SignUp/SignUpPage.jsx';
 import CartPage from './pages/CartPage/CartPage.jsx';
 import ProductDetailPage from './pages/productDetails/productDetails.jsx';
+import ProfilePage from './pages/Profile/ProfilePage.jsx';
+import VerifyEmailPage from './pages/VerifyEmail/VerifyEmailPage.jsx';
+import SupportPage from './pages/SupportPage/SupportPage.jsx';
 
 // Import Admin components
 import AdminRoute from './components/AdminRoute.jsx';
 import AdminDashboard from './pages/Admin/AdminDashboard.jsx';
 import AddProductPage from './pages/Admin/AddProductPage.jsx';
+import InventoryPage from './pages/Admin/InventoryPage.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
 
 function App() {
@@ -59,11 +63,31 @@ function App() {
                 <Route path="/kids" element={<KidsPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signup" element={<SignUpPage />} />
+                <Route path="/verify-email" element={<VerifyEmailPage />} />
+                <Route path="/about" element={<SupportPage pageKey="about" />} />
+                <Route path="/help" element={<SupportPage pageKey="help" />} />
+                <Route path="/contact" element={<SupportPage pageKey="contact" />} />
+                <Route path="/faq" element={<SupportPage pageKey="faq" />} />
+                <Route path="/track-order" element={<SupportPage pageKey="track-order" />} />
+                <Route path="/returns" element={<SupportPage pageKey="returns" />} />
+                <Route path="/new-arrivals" element={<SupportPage pageKey="new-arrivals" />} />
+                <Route path="/privacy" element={<SupportPage pageKey="privacy" />} />
+                <Route path="/terms" element={<SupportPage pageKey="terms" />} />
+                <Route path="/shipping" element={<SupportPage pageKey="shipping" />} />
+                <Route path="/refunds" element={<SupportPage pageKey="refunds" />} />
                 <Route
                   path="/cart"
                   element={
                     <ProtectedRoute>
                       <CartPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
+                      <ProfilePage />
                     </ProtectedRoute>
                   }
                 />
@@ -74,6 +98,7 @@ function App() {
                 <Route element={<AdminRoute />}>
                   <Route path="/admin/dashboard" element={<AdminDashboard />} />
                   <Route path="/admin/add-product" element={<AddProductPage />} />
+                  <Route path="/admin/inventory" element={<InventoryPage />} />
                 </Route>
 
               </Routes>

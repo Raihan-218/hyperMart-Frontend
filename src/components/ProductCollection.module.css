@@ -1,0 +1,12 @@
+.collection { padding-block: 2.5rem 4rem; }
+.collection h1 { margin: 0 0 .6rem; text-align: center; font-size: clamp(2rem, 4vw, 3rem); }
+.description { max-width: 680px; margin: 0 auto 2rem; text-align: center; color: #68717d; line-height: 1.6; }
+.filters { display: flex; justify-content: center; flex-wrap: wrap; gap: .75rem; margin-bottom: 1rem; }
+.filters input, .filters select { min-height: 42px; padding: .55rem .75rem; border: 1px solid #d1d5db; border-radius: .5rem; background: var(--background-color, #fff); color: inherit; }
+.filters input:first-child { min-width: min(260px, 100%); }
+.resultCount { margin: 0 0 1rem; color: #68717d; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.5rem; }
+.pagination { display: flex; align-items: center; justify-content: center; gap: 1rem; padding-top: 2rem; }
+.pagination button { border: 1px solid #d1d5db; border-radius: .5rem; padding: .6rem 1rem; background: transparent; color: inherit; cursor: pointer; }
+.pagination button:disabled { opacity: .45; cursor: not-allowed; }
+.error { color: #b42318; }

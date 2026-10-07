@@ -1,0 +1,440 @@
+.page {
+  padding: 2.5rem 0 4rem;
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+.sidebar,
+.content {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+}
+
+.sidebar {
+  padding: 1.5rem 1rem;
+}
+
+.profileBadge {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0.5rem 1.25rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #111827, #4b5563);
+  color: white;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+
+.greeting {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.profileBadge h2 {
+  margin: 0.15rem 0 0;
+  font-size: 1.1rem;
+}
+
+.navList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 1rem;
+}
+
+.navItem {
+  width: 100%;
+  border: none;
+  background: transparent;
+  border-radius: 10px;
+  padding: 0.8rem 0.9rem;
+  color: #374151;
+  text-align: left;
+  font-size: 0.96rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.navItem:hover,
+.navItem.active {
+  background: #f3f4f6;
+  color: #111827;
+  font-weight: 600;
+}
+
+.logout {
+  color: #b91c1c;
+}
+
+.content {
+  padding: 1.5rem;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.kicker {
+  margin: 0;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+}
+
+.headerRow h1 {
+  margin: 0.2rem 0 0;
+  font-size: clamp(1.8rem, 2vw, 2.4rem);
+  color: #111827;
+}
+
+.primaryButton,
+.secondaryButton {
+  border: none;
+  border-radius: 10px;
+  padding: 0.85rem 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.primaryButton {
+  background: #111827;
+  color: white;
+}
+
+.secondaryButton {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.primaryButton:hover,
+.secondaryButton:hover {
+  transform: translateY(-1px);
+}
+
+.primaryButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.successMessage,
+.errorMessage {
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.successMessage {
+  background: #ecfdf5;
+  color: #166534;
+  border: 1px solid #a7f3d0;
+}
+
+.errorMessage {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.detailsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.detailCard {
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  border-radius: 14px;
+  padding: 1.25rem;
+}
+
+.detailCard h3 {
+  margin: 0 0 1rem;
+  color: #111827;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.detailRow:last-child {
+  border-bottom: none;
+}
+
+.detailRow span {
+  color: #6b7280;
+}
+
+.detailRow strong {
+  color: #111827;
+  text-align: right;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+.form input {
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: white;
+  padding: 0.85rem 0.9rem;
+  font-size: 0.95rem;
+  color: #111827;
+}
+
+.form input:focus {
+  outline: none;
+  border-color: #111827;
+  box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
+}
+
+.form input:disabled {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.wishlistStatus {
+  color: #6b7280;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.emptyWishlist {
+  padding: 3rem 1rem;
+  border: 1px dashed #d1d5db;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.emptyWishlist h2 {
+  margin: 0 0 0.5rem;
+  color: #111827;
+  font-size: 1.25rem;
+}
+
+.emptyWishlist p {
+  color: #6b7280;
+  margin: 0 0 1.25rem;
+}
+
+.emptyWishlist a {
+  text-decoration: none;
+}
+
+.wishlistGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.wishlistCard {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #fff;
+  padding-bottom: 1rem;
+}
+
+.wishlistProductLink {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.wishlistImage,
+.wishlistImagePlaceholder {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  background: #f3f4f6;
+}
+
+.wishlistImagePlaceholder {
+  display: grid;
+  place-items: center;
+  color: #6b7280;
+}
+
+.wishlistProductLink h2 {
+  margin: 0.8rem 0.9rem 0;
+  color: #111827;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.wishlistPrice {
+  margin: 0.5rem 0.9rem;
+  color: #374151;
+  font-weight: 600;
+}
+
+.removeWishlistButton {
+  margin: 0.25rem 0.9rem 0;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  color: #991b1b;
+  cursor: pointer;
+}
+
+.removeWishlistButton:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.orderList {
+  display: grid;
+  gap: 1rem;
+}
+
+.orderCard {
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.orderHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.orderHeader h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 1rem;
+}
+
+.orderHeader p {
+  margin: 0.3rem 0 0;
+  color: #6b7280;
+  font-size: 0.88rem;
+}
+
+.orderStatus {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  color: #374151;
+  text-align: right;
+}
+
+.orderStatus span {
+  border-radius: 999px;
+  background: #ecfdf5;
+  color: #166534;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.orderItems {
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem 1.2rem;
+}
+
+.orderItems li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #f3f4f6;
+  color: #374151;
+}
+
+.orderItems li:last-child {
+  border-bottom: 0;
+}
+
+.orderItems small {
+  display: block;
+  margin-top: 0.2rem;
+  color: #6b7280;
+}
+
+.orderItems strong {
+  white-space: nowrap;
+}
+
+@media (max-width: 850px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .detailsGrid,
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .headerRow {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .orderHeader {
+    align-items: flex-start;
+  }
+}

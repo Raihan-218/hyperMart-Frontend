@@ -122,3 +122,125 @@
     border-radius: 0.5rem;
     margin-bottom: 1rem;
 }
+
+.colorEditor {
+    min-width: 0;
+    margin: 0;
+    padding: 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+}
+
+.colorEditor legend {
+    padding: 0 0.4rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.colorEditor p {
+    margin: 0 0 0.85rem;
+    color: #6b7280;
+    font-size: 0.82rem;
+}
+
+.colorRow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    gap: 0.6rem;
+    align-items: center;
+    margin-bottom: 0.65rem;
+}
+
+.removeColor,
+.addColor {
+    min-height: 42px;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.35rem;
+    background: transparent;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.removeColor {
+    color: #b42318;
+}
+
+.addColor {
+    border-color: #2563eb;
+    color: #2563eb;
+}
+
+.inventoryTable {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(90px, 0.7fr);
+    gap: 0.6rem 0.8rem;
+    align-items: center;
+    margin-top: 0.75rem;
+}
+
+.inventoryHeader {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #6b7280;
+}
+
+.inventoryCell {
+    padding: 0.35rem 0.2rem;
+    color: #111827;
+    font-size: 0.92rem;
+}
+
+.inventoryInput {
+    width: 100%;
+    padding: 0.55rem 0.65rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.4rem;
+    background: #fff;
+    color: #111827;
+    font: inherit;
+}
+
+:global(.dark) .colorEditor {
+    border-color: #4b5563;
+}
+
+:global(.dark) .colorEditor p {
+    color: #c4cbd4;
+}
+
+:global(.dark) .removeColor {
+    border-color: #6b4a4a;
+    color: #fca5a5;
+}
+
+:global(.dark) .addColor {
+    border-color: #60a5fa;
+    color: #93c5fd;
+}
+
+:global(.dark) .inventoryHeader {
+    color: #d1d5db;
+}
+
+:global(.dark) .inventoryCell,
+:global(.dark) .inventoryInput {
+    color: #f3f4f6;
+    background-color: #374151;
+    border-color: #4b5563;
+}
+
+@media (max-width: 540px) {
+    .colorRow {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .removeColor {
+        grid-column: 1 / -1;
+        justify-self: start;
+    }
+}

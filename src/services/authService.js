@@ -11,3 +11,12 @@ export const logoutUser = () =>
 
 export const getCurrentUser = () =>
   api.get('/users/me');
+
+export const updateUserProfile = (data) =>
+  api.put('/users/profile', data);
+
+export const verifyUserEmail = (token) =>
+  api.get(`/users/verify-email?token=${encodeURIComponent(token)}`);
+
+export const resendVerificationEmail = (email) =>
+  api.post('/users/resend-verification', { email });

@@ -1,33 +1,62 @@
-import React, { useState } from 'react'; // 1. Import useState
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './AuthForm.module.css';
-const img = '/assets/hero.jpg';
 import { useAuth } from '../../context/AuthContext';
+import { resendVerificationEmail } from '../../services/authService';
 
+const img = '/assets/hero.jpg';
 
 const LoginPage = () => {
   // 3. Create state for form fields
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [canResendVerification, setCanResendVerification] = useState(false);
+  const [isResending, setIsResending] = useState(false);
 
-  // 4. Get hooks
   const navigate = useNavigate();
-  const { login } = useAuth(); // Get the login function from our context
+  const location = useLocation();
+  const { login } = useAuth();
 
-  // 5. Create the submit handler
+  useEffect(() => {
+    if (location.state?.successMessage) {
+      setSuccessMessage(location.state.successMessage);
+    }
+  }, [location.state]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setSuccessMessage('');
+    setCanResendVerification(false);
+
     try {
       const res = await login({ email, password });
-      // Redirect based on role
       if (res?.user?.role === 'admin') {
         navigate('/admin/dashboard');
       } else {
         navigate('/');
       }
     } catch (err) {
-      setError(err.message || 'Login failed');
+      const message = typeof err === 'string' ? err : err.message || 'Login failed';
+      setError(message);
+      setCanResendVerification(/verify your email/i.test(message));
+    }
+  };
+
+  const handleResendVerification = async () => {
+    setError('');
+    setSuccessMessage('');
+    setIsResending(true);
+
+    try {
+      const response = await resendVerificationEmail(email);
+      setSuccessMessage(response.data.message);
+    } catch (err) {
+      setError(typeof err === 'string' ? err : err.message || 'Could not resend the verification email.');
+    } finally {
+      setIsResending(false);
     }
   };
 
@@ -49,7 +78,10 @@ const LoginPage = () => {
           <h2 className={styles.formTitle}>Welcome Back!</h2>
           <p className={styles.formSubtitle}>Login to access your account and orders.</p>
 
-          {/* 8. Connect the form to the handler */}
+          {successMessage && (
+            <p style={{ color: '#16a34a', textAlign: 'center', margin: '0.5rem 0' }}>{successMessage}</p>
+          )}
+
           <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.inputGroup}>
               <label htmlFor="email">Email</label>
@@ -79,6 +111,17 @@ const LoginPage = () => {
 
             <button type="submit" className={styles.submitButton}>Login</button>
           </form>
+
+          {canResendVerification && (
+            <button
+              type="button"
+              className={styles.socialButton}
+              onClick={handleResendVerification}
+              disabled={isResending || !email.trim()}
+            >
+              {isResending ? 'Sending...' : 'Resend verification email'}
+            </button>
+          )}
 
           {/* Optional: Social Login Separator */}
           <div className={styles.separator}>

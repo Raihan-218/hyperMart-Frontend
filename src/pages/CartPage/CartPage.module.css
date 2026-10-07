@@ -137,7 +137,37 @@
 .checkoutButton:hover {
   background-color: var(--primary-hover);
 }
-/* Add to src/pages/CartPage/CartPage.module.css */
+
+.addressSection {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.addressSection h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+}
+
+.addressFields {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.addressFields input {
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.7rem 0.8rem;
+  background: var(--surface-bg, #fff);
+  color: inherit;
+}
+
+.errorMessage {
+  color: #b42318;
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+}
 
 .itemOptions {
   font-size: 0.9rem;

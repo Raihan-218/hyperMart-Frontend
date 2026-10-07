@@ -1,59 +1,41 @@
 // src/pages/SignUp/SignUpPage.jsx
 
-import React, { useState } from 'react'; // 1. Import useState
-import { Link, useNavigate } from 'react-router-dom'; // 2. Import useNavigate
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from '../LoginPage/AuthForm.module.css';
+import { registerUser } from '../../services/authService';
+
 const img = '/assets/signup.webp';
 
 const SignupPage = () => {
-  // 3. Create state for your form fields
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(''); // For showing errors from the backend
-  const navigate = useNavigate(); // To redirect on success
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
-  // 4. Create the function to handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Stop the form from reloading the page
-    setError(''); // Clear previous errors
+    e.preventDefault();
+    setError('');
 
-    // Basic validation
     if (!fullName || !email || !password) {
       setError('All fields are required.');
       return;
     }
-    
-    // (You can add password confirmation logic here)
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          fullName,
-          email,
-          password
-        }),
+      setIsSubmitting(true);
+      const response = await registerUser({ fullName, email, password });
+      navigate('/login', {
+        state: {
+          successMessage: response.data.message || 'Registration successful. Please verify your email.'
+        }
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        // If the server responded with an error (like 409 "User already exists")
-        throw new Error(data.message || 'Something went wrong');
-      }
-
-      // Success!
-      console.log('Registration successful:', data.user);
-      alert('Registration successful! Please log in.');
-      navigate('/login'); // Redirect to the login page
-
     } catch (err) {
-      console.error('Registration Error:', err);
-      setError(err.message);
+      setError(typeof err === 'string' ? err : err.message || 'Something went wrong');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -105,10 +87,11 @@ const SignupPage = () => {
               />
             </div>
             
-            {/* 8. Show any errors */}
             {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
 
-            <button type="submit" className={styles.submitButton}>Create Account</button>
+            <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
+              {isSubmitting ? 'Creating Account...' : 'Create Account'}
+            </button>
           </form>
 
           <p className={styles.redirectText}>
